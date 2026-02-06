@@ -25,7 +25,6 @@ import { getLangFromUrl, useTranslatedPath } from '@/i18n/utils'
 import IndexSchema from '@/components/schemas/IndexSchema.astro'
 import Trans from '@/components/Trans.astro'
 
-export const prerender = false
 const lang = getLangFromUrl(Astro.url)
 const i18n = getI18N({ currentLocale: lang })
 const translatePath = useTranslatedPath(lang)
