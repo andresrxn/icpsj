@@ -4,7 +4,7 @@ import { getI18N } from '@/i18n'
 import { getLangFromUrl } from '@/i18n/utils'
 import { cn } from '@/utils/theme'
 import type { HTMLAttributes } from 'astro/types'
-import { Heart, Home, NotebookPen, Speech } from 'lucide-astro'
+import { Heart, Home, NotebookPen, Speech } from '@lucide/astro'
 interface Props extends HTMLAttributes<'div'> {}
 
 const lang = getLangFromUrl(Astro.url)

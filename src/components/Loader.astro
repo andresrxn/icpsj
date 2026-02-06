@@ -1,8 +1,7 @@
 ---
 import { cn } from '@/utils/theme'
-import type { HTMLAttributes } from 'astro/types'
 import { cva, type VariantProps } from 'class-variance-authority'
-import { Loader as Spinner } from 'lucide-astro'
+import { Loader as Spinner, type IconProps } from '@lucide/astro'
 export const loaderVariants = cva('animate-spin ease-base repeat-infinite duration-slowest', {
   variants: {
     size: {
@@ -24,7 +23,7 @@ export const loaderVariants = cva('animate-spin ease-base repeat-infinite durati
   }
 })
 
-export type Props = HTMLAttributes<'svg'> & VariantProps<typeof loaderVariants>
+export type Props = IconProps & VariantProps<typeof loaderVariants>
 
 const { size, type, class: className, ...props } = Astro.props
 ---

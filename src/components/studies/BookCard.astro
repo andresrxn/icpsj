@@ -3,7 +3,7 @@ import Link, { type Props as LinkProps } from '@/components/Link.astro'
 import Text from '@/components/typography/Text.astro'
 import { getLangFromUrl, useTranslatedPath } from '@/i18n/utils'
 import { cn } from '@/utils/theme'
-import { BookMarked } from 'lucide-astro'
+import { BookMarked } from '@lucide/astro'
 
 const lang = getLangFromUrl(Astro.url)
 const translatePath = useTranslatedPath(lang)

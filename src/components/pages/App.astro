@@ -11,7 +11,7 @@ import Facebook from '@/components/icons/Facebook.astro'
 import Twitter from '@/components/icons/Twitter.astro'
 import Telegram from '@/components/icons/Telegram.astro'
 import WhatsApp from '@/components/icons/WhatsApp.astro'
-import { ArrowDownToLine, ArrowRight, Mail } from 'lucide-astro'
+import { ArrowDownToLine, ArrowRight, Mail } from '@lucide/astro'
 import Divider from '@/components/Divider.astro'
 import { YouTube } from '@astro-community/astro-embed-youtube'
 import ScheduleServices from '@/components/sections/ScheduleServices.astro'
@@ -25,6 +25,7 @@ import { getLangFromUrl, useTranslatedPath } from '@/i18n/utils'
 import IndexSchema from '@/components/schemas/IndexSchema.astro'
 import Trans from '@/components/Trans.astro'
 
+export const prerender = false
 const lang = getLangFromUrl(Astro.url)
 const i18n = getI18N({ currentLocale: lang })
 const translatePath = useTranslatedPath(lang)
