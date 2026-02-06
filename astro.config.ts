@@ -4,7 +4,7 @@ import tailwind from '@astrojs/tailwind'
 import { defineConfig } from 'astro/config'
 import { loadEnv } from 'vite'
 
-import cloudflare from '@astrojs/cloudflare'
+import vercel from '@astrojs/vercel';
 
 const { PUBLIC_SITE_URL } = loadEnv(process.env.PUBLIC_SITE_URL!, process.cwd(), '')
 
@@ -43,11 +43,12 @@ export default defineConfig({
       configFile: 'tailwind.config.ts'
     })
   ],
+
   vite: {
     build: {
       minify: false
     }
   },
-  adapter: cloudflare()
-})
 
+  adapter: vercel()
+})

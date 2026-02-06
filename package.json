@@ -3,10 +3,10 @@
   "type": "module",
   "version": "0.0.1",
   "scripts": {
-    "dev": "wrangler types && astro dev",
-    "start": "wrangler types && astro dev",
-    "build": "wrangler types && astro build",
-    "preview": "wrangler types && astro build && wrangler dev",
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro build && astro dev",
     "check": "astro check",
     "lint": "eslint .",
     "typecheck": "tsc"
@@ -17,11 +17,11 @@
   "dependencies": {
     "@astro-community/astro-embed-youtube": "0.5.10",
     "@astrojs/check": "0.9.6",
-    "@astrojs/cloudflare": "12.6.12",
     "@astrojs/mdx": "4.3.13",
     "@astrojs/rss": "4.0.15",
     "@astrojs/sitemap": "3.7.0",
     "@astrojs/tailwind": "6.0.2",
+    "@astrojs/vercel": "9.0.4",
     "@fontsource-variable/merriweather-sans": "5.0.16",
     "@fontsource-variable/open-sans": "5.0.31",
     "@fontsource/merriweather": "5.0.15",
@@ -52,4 +52,3 @@
     "vite": "5.2.14"
   }
 }
-
