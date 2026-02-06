@@ -1,0 +1,58 @@
+---
+import Link from '@/components/Link.astro'
+import BookBanner from '@/components/studies/BookBanner.astro'
+import Heading from '@/components/typography/Heading.astro'
+import { BIBLE_BOOKS } from '@/consts'
+import { getI18N } from '@/i18n'
+import { getLangFromUrl, useTranslatedPath } from '@/i18n/utils'
+import RootLayout from '@/layouts/RootLayout.astro'
+import { generateSiteTitle } from '@/utils/meta'
+import { getCollection } from 'astro:content'
+
+const lang = getLangFromUrl(Astro.url)
+const i18n = getI18N({ currentLocale: lang })
+const translatePath = useTranslatedPath(lang)
+
+const posts = await getCollection('studies', entry => {
+  return entry.slug.startsWith(lang)
+})
+const bookCounts = posts.reduce((acc: Map<string, number>, { data: { book } }) => {
+  acc.set(book, (acc.get(book) || 0) + 1)
+  return acc
+}, new Map())
+const booksWithCounts = Array.from(bookCounts.entries()).map(([name, amount]) => ({ name, amount }))
+const sortBooksByOrder = (
+  books: {
+    name: string
+    amount: number
+  }[],
+  order: string[]
+) =>
+  books.sort((a, b) => {
+    const posA = order.indexOf(a.name)
+    const posB = order.indexOf(b.name)
+    return (posA === -1 ? order.length : posA) - (posB === -1 ? order.length : posB)
+  })
+const orderedBooks = sortBooksByOrder(booksWithCounts, BIBLE_BOOKS[lang])
+---
+
+<RootLayout
+  title={generateSiteTitle(i18n.books.meta.title)}
+  description={i18n.books.meta.description}>
+  <main>
+    <section class='pt-32 lg:pt-44 pb-60'>
+      <div>
+        <Heading size='sm' center tablet='base' tv='lg'>{i18n.books.title} </Heading>
+      </div>
+      <div class='container-grid mt-24 lg:max-w-screen-lg'>
+        <div
+          class='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-20 animate-fade animate-duration-base animate-ease-base'>
+          {orderedBooks.map(book => <BookBanner book={book.name} amount={book.amount} />)}
+        </div>
+      </div>
+      <Link icon full class='mt-32' href={translatePath('/estudios')}
+        >{i18n.common.actions.seeAllStudies}</Link
+      >
+    </section>
+  </main>
+</RootLayout>

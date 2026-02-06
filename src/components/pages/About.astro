@@ -1,0 +1,179 @@
+---
+import AvatarCard from '@/components/AvatarCard.astro'
+import Card from '@/components/Card.astro'
+import Divider from '@/components/Divider.astro'
+import Image from '@/components/Image.astro'
+import Link from '@/components/Link.astro'
+import Map from '@/components/Map.astro'
+import Heading from '@/components/typography/Heading.astro'
+import List from '@/components/typography/List.astro'
+import ListItem from '@/components/typography/ListItem.astro'
+import Text from '@/components/typography/Text.astro'
+import { COMPANY, IMAGES, SITE } from '@/consts'
+import { getI18N } from '@/i18n'
+import { getLangFromUrl, useTranslatedPath } from '@/i18n/utils'
+import RootLayout from '@/layouts/RootLayout.astro'
+import { generateSiteTitle } from '@/utils/meta'
+
+import { CircleCheckBig, Leaf, MapPin, ScrollText, Shrub } from 'lucide-astro'
+
+const lang = getLangFromUrl(Astro.url)
+const i18n = getI18N({ currentLocale: lang })
+const translatePath = useTranslatedPath(lang)
+---
+
+<RootLayout
+  title={generateSiteTitle(i18n.about.meta.title)}
+  description={i18n.about.meta.description}>
+  <main class='pt-52'>
+    <section class='container-grid'>
+      <Heading size='sm' center tablet='base' tv='lg'>
+        <span class='block'>Iglesia de Cristo </span>
+        <span>
+          {SITE.TITLE}
+        </span>
+      </Heading>
+      <Text center class='mt-12 max-w-screen-md' priority='secondary' characters='base' tv='lg'>
+        {i18n.about.meta.description}
+      </Text>
+
+      <Image
+        src={IMAGES.GENERAL.AUDITORIUM_EMPTY}
+        alt=''
+        class='animate-fade-up animate-duration-base animate-ease-base brightness-[0.85] rounded-base shadow-xl mt-24 max-w-screen-md xl:max-w-screen-lg xl:h-[530px] object-cover mx-auto'
+      />
+    </section>
+    <section class='container-grid py-36'>
+      <Heading level={2} size='sm' center tablet='base' tv='lg'>
+        {i18n.about.sections.leadership.title}
+      </Heading>
+      <Text center class='mt-12' priority='secondary' tv='lg'>
+        {i18n.about.sections.leadership.description}
+      </Text>
+      <div class='grid gap-20 mt-32 md:grid-cols-3 md:gap-12 md:max-w-screen-lg mx-auto'>
+        <AvatarCard
+          name='Jesús Raxón'
+          label={i18n.common.labels.generalPastor}
+          class='md:order-2'
+        />
+        <AvatarCard name='Hugo Sánchez' label={i18n.common.labels.generalPastor} />
+        <AvatarCard
+          name='Herminio Ochoa'
+          label={i18n.common.labels.generalPastor}
+          class='md:order-3'
+        />
+      </div>
+    </section>
+    <Divider class='container-grid flex-initial my-44 max-w-screen-lg' />
+    <section class='container-grid pt-36 py-48'>
+      <Heading level={2} size='sm' center tablet='base' tv='lg'>
+        {i18n.about.sections.church.title}
+      </Heading>
+      <Text center class='mt-12' priority='secondary' tv='lg'>
+        {i18n.about.sections.church.description}
+      </Text>
+      <div class='grid gap-20 mt-28 md:grid-cols-2 md:grid-rows-3 md:max-w-screen-lg mx-auto'>
+        <Card
+          class='hover:shadow-lg !transition-all ease-base duration-base hover:!scale-102 md:row-span-2'
+          data-aos='fade-up'>
+          <div class='flex gap-10 h-24 items-center md:h-32'>
+            <ScrollText class='size-icon-responsive text-icon-primary' />
+            <Divider direction='y' full />
+            <Text type='label' size='lg' laptop='lg' tv='xl'
+              >{i18n.about.sections.church.history.title}</Text
+            >
+          </div>
+
+          <Text class='mt-18' priority='secondary'>
+            {i18n.about.sections.church.history.description_1}
+          </Text>
+          <Text class='mt-18' priority='secondary'>
+            {i18n.about.sections.church.history.description_2}
+          </Text>
+        </Card>
+        <Card
+          class='hover:shadow-lg !transition-all ease-base duration-base hover:!scale-102 md:row-span-1'
+          data-aos='fade-up'>
+          <div class='flex gap-10 h-24 items-center md:h-32'>
+            <Leaf class='size-icon-responsive text-icon-primary' />
+            <Divider direction='y' full />
+            <Text type='label' size='lg' laptop='lg' tv='xl'
+              >{i18n.about.sections.church.mision.title}</Text
+            >
+          </div>
+          <Text class='mt-18' priority='secondary' tablet='lg' characters='sm'
+            >{i18n.about.sections.church.mision.description}</Text
+          >
+        </Card>
+        <Card
+          class='hover:shadow-lg !transition-all ease-base duration-base hover:!scale-102 md:row-span-1 md:col-span-1 md:col-start-1 md:col-end-2'
+          data-aos='fade-up'>
+          <div class='flex gap-10 h-24 items-center md:h-32'>
+            <Shrub class='size-icon-responsive text-icon-primary' />
+            <Divider direction='y' full />
+            <Text type='label' size='lg' laptop='lg' tv='xl'
+              >{i18n.about.sections.church.vision.title}</Text
+            >
+          </div>
+          <Text class='mt-18' priority='secondary' tablet='lg' characters='sm'
+            >{i18n.about.sections.church.vision.description}</Text
+          >
+        </Card>
+        <Card
+          class='hover:shadow-lg !transition-all ease-base duration-base hover:!scale-102 md:row-span-2 md:col-start-2 md:row-start-2'
+          data-aos='fade-up'>
+          <div class='flex gap-10 h-24 items-center md:h-32'>
+            <CircleCheckBig class='size-icon-responsive text-icon-primary' />
+            <Divider direction='y' full />
+            <Text type='label' size='lg' laptop='lg' tv='xl'
+              >{i18n.about.sections.church.values.title}</Text
+            >
+          </div>
+          <Text class='mt-18' priority='secondary'
+            >{i18n.about.sections.church.values.description}</Text
+          >
+          <List class='mt-18' priority='secondary'>
+            <ListItem label={i18n.common.labels.value}>
+              {i18n.about.sections.church.values.value_1}
+            </ListItem>
+            <ListItem label={i18n.common.labels.value}>
+              {i18n.about.sections.church.values.value_2}
+            </ListItem>
+            <ListItem label={i18n.common.labels.value}>
+              {i18n.about.sections.church.values.value_3}
+            </ListItem>
+            <ListItem label={i18n.common.labels.value}>
+              {i18n.about.sections.church.values.value_4}
+            </ListItem>
+            <ListItem label={i18n.common.labels.value}>
+              {i18n.about.sections.church.values.value_5}
+            </ListItem>
+          </List>
+        </Card>
+        <Card
+          class='hover:shadow-lg !transition-all ease-base duration-base hover:!scale-102 md:col-span-2'
+          data-aos='fade-up'>
+          <div class='flex gap-10 h-24 items-center md:h-32'>
+            <MapPin class='size-icon-responsive text-icon-primary' />
+            <Divider direction='y' full />
+            <Text type='label' size='lg' laptop='lg' tv='xl'
+              >{i18n.about.sections.church.location.title}</Text
+            >
+          </div>
+          <Text class='mt-12' priority='secondary' tablet='lg'>
+            {COMPANY.ADDRESS.FULL}
+          </Text>
+          <Map
+            class='mt-18 md:h-[450px]'
+            lat={COMPANY.ADDRESS.LAT}
+            lng={COMPANY.ADDRESS.LNG}
+            zoom={13}
+          />
+        </Card>
+      </div>
+      <Link class='mt-32' full icon href={translatePath('/contacto')}
+        >{i18n.common.actions.seeContactMethods}</Link
+      >
+    </section>
+  </main>
+</RootLayout>

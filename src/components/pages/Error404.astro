@@ -1,0 +1,27 @@
+---
+import Link from '@/components/Link.astro'
+import Heading from '@/components/typography/Heading.astro'
+import Text from '@/components/typography/Text.astro'
+import { getI18N } from '@/i18n'
+import { getLangFromUrl, useTranslatedPath } from '@/i18n/utils'
+import RootLayout from '@/layouts/RootLayout.astro'
+import { generateSiteTitle } from '@/utils/meta'
+
+const lang = getLangFromUrl(Astro.url)
+const i18n = getI18N({ currentLocale: lang })
+const translatePath = useTranslatedPath(lang)
+---
+
+<RootLayout title={generateSiteTitle(i18n.notFound.title)} description={i18n.notFound.description}>
+  <main class='min-h-[70dvh] flex-1 flex items-center justify-center'>
+    <section class='container-grid h-full flex flex-col flex-initial gap-6'>
+      <Text center type='label' size='3xl' class='text-primary-base'>404</Text>
+      <Heading center>{i18n.notFound.title}</Heading>
+      <Text center laptop='lg'>{i18n.notFound.description}</Text>
+
+      <Link full icon href={translatePath('/')} class='mt-12'>
+        {i18n.common.actions.backToHome}
+      </Link>
+    </section>
+  </main>
+</RootLayout>

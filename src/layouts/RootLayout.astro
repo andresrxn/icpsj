@@ -1,0 +1,38 @@
+---
+import Head, { type Props as HeadProps } from '@/components/Head.astro'
+import Header from '@/components/header/Header.astro'
+import '../styles/base.css'
+import 'aos/dist/aos.css'
+
+import '@fontsource-variable/open-sans'
+import '@fontsource/merriweather/700.css'
+import '@fontsource/merriweather/900.css'
+import Footer from '@/components/footer/Footer.astro'
+import { getLangFromUrl } from '@/i18n/utils'
+
+interface Props extends HeadProps {}
+
+const { title, description, image, preload } = Astro.props
+const lang = getLangFromUrl(Astro.url)
+---
+
+<html lang={lang} class='dark'>
+  <head>
+    <Head title={title} description={description} image={image} preload={preload} />
+  </head>
+
+  <body>
+    <Header />
+    <slot />
+    <Footer />
+
+    <script>
+      import AOS from 'aos'
+
+      AOS.init({
+        once: true,
+        offset: 50
+      })
+    </script>
+  </body>
+</html>

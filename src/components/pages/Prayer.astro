@@ -1,0 +1,111 @@
+---
+import Button from '@/components/Button.astro'
+import Checkbox from '@/components/Checkbox.astro'
+import Image from '@/components/Image.astro'
+import Input from '@/components/Input.astro'
+import Label from '@/components/Label.astro'
+import Link from '@/components/Link.astro'
+import Textarea from '@/components/Textarea.astro'
+import Trans from '@/components/Trans.astro'
+import Heading from '@/components/typography/Heading.astro'
+import Text from '@/components/typography/Text.astro'
+import { IMAGES } from '@/consts'
+import { getI18N } from '@/i18n'
+import { getLangFromUrl, useTranslatedPath } from '@/i18n/utils'
+import RootLayout from '@/layouts/RootLayout.astro'
+import { generateSiteTitle } from '@/utils/meta'
+
+const lang = getLangFromUrl(Astro.url)
+const i18n = getI18N({ currentLocale: lang })
+const translatePath = useTranslatedPath(lang)
+---
+
+<RootLayout
+  title={generateSiteTitle(i18n.prayer.meta.title)}
+  description={i18n.prayer.meta.description}>
+  <main>
+    <section class=''>
+      <div
+        class='flex flex-col gap-32 pb-60 lg:grid lg:grid-cols-2 lg:gap-0 2xl:max-w-screen-xl mx-auto lg:pb-0'>
+        <Image
+          src={IMAGES.GENERAL.HANDS_ADORATION}
+          alt=''
+          class='animate-fade-right animate-duration-base animate-ease-base h-[180px] object-cover md:h-[250px] lg:h-dvh lg:max-h-[800px] lg:sticky lg:top-40'
+        />
+        <div class='container-grid lg:pt-44 lg:pb-60 2xl:pt-56'>
+          <Heading size='sm' center tablet='base'>{i18n.prayer.title} </Heading>
+          <Text center class='mt-12' priority='secondary' tv='lg' characters='sm'>
+            {i18n.prayer.meta.description}
+          </Text>
+          <form class='mt-24 lg:mt-32 flex flex-col gap-12 max-w-screen-sm mx-auto' method='POST'>
+            <Label>
+              {i18n.common.form.prayer.from.label}
+              <Input
+                placeholder={i18n.common.form.fullname.placeholder}
+                spellcheck='false'
+                autocomplete='given-name'
+                minlength={3}
+                required
+              />
+            </Label>
+            <Label>
+              {i18n.common.form.prayer.toWhom.label}
+              <Input
+                placeholder={i18n.common.form.prayer.toWhom.placeholder}
+                spellcheck='false'
+                autocomplete='given-name'
+                minlength={3}
+                required
+              />
+            </Label>
+            <Label>
+              {i18n.common.form.prayer.reasons.label}
+              <Input
+                placeholder={i18n.common.form.prayer.reasons.placeholder}
+                spellcheck='false'
+                autocomplete='given-name'
+                minlength={3}
+                required
+              />
+            </Label>
+
+            <Label>
+              {i18n.common.form.email.label}
+              <Input placeholder={i18n.common.form.email.placeholder} type='email' required />
+            </Label>
+            <Label>
+              {i18n.common.form.phone.label}
+              {i18n.common.labels.optional}
+              <Input placeholder={i18n.common.form.phone.placeholder} type='tel' />
+            </Label>
+
+            <Label>
+              {i18n.common.form.message.label}
+              <Textarea placeholder={i18n.common.form.message.placeholder} required />
+            </Label>
+
+            <Checkbox label name='terms'>
+              <Trans i18nKey={i18n.common.form.termsAndPrivacy.label}>
+                He leído y acepto la {
+                  (
+                    <Link target='_blank' href={translatePath('/politica-de-privacidad')}>
+                      Política de Privacidad
+                    </Link>
+                  )
+                } y los {
+                  (
+                    <Link target='_blank' href={translatePath('/terminos-y-condiciones')}>
+                      Términos y Condiciones
+                    </Link>
+                  )
+                } del sitio web
+              </Trans>
+            </Checkbox>
+
+            <Button class='mt-12' full>{i18n.common.actions.send}</Button>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+</RootLayout>

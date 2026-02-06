@@ -1,0 +1,157 @@
+---
+import Button from '@/components/Button.astro'
+import InputSearch from '@/components/InputSearch.astro'
+import Label from '@/components/Label.astro'
+import Pagination from '@/components/Pagination.astro'
+import DevotionalCard from '@/components/devotionals/DevotionalCard.astro'
+import EmptySearch from '@/components/sections/EmptySearch.astro'
+import Heading from '@/components/typography/Heading.astro'
+import Text from '@/components/typography/Text.astro'
+import RootLayout from '@/layouts/RootLayout.astro'
+import { removeDiacritics } from '@/utils/articles'
+import { generateSiteTitle } from '@/utils/meta'
+import { getCollection } from 'astro:content'
+import { getI18N } from '@/i18n'
+import { getLangFromUrl } from '@/i18n/utils'
+
+const query = Astro.url.searchParams.get('q')!
+
+const lang = getLangFromUrl(Astro.url)
+const i18n = getI18N({ currentLocale: lang })
+const devotionals = await getCollection('devotionals', entry => {
+  return entry.slug.startsWith(lang)
+})
+const filteredDevotionals = devotionals.filter(post => {
+  const queryNormalized = removeDiacritics(query.toLocaleLowerCase())
+  const titleNormalized = removeDiacritics(post.data.title.toLocaleLowerCase())
+  const descriptionNormalized = removeDiacritics(post.data.description.toLocaleLowerCase())
+  const verseNormalized = removeDiacritics(post.data.verse.toLocaleLowerCase())
+  const citeNormalized = removeDiacritics(post.data.cite.toLocaleLowerCase())
+  const tagsNormalized = post.data.tags.map(tag => removeDiacritics(tag.toLocaleLowerCase()))
+
+  const titleExactMatch = titleNormalized.startsWith(queryNormalized)
+  const descriptionExactMatch = descriptionNormalized.startsWith(queryNormalized)
+  const verseExactMatch = verseNormalized.startsWith(queryNormalized)
+  const citeExactMatch = citeNormalized.startsWith(queryNormalized)
+
+  const tagsContains = tagsNormalized.some(tag => tag.includes(queryNormalized))
+  const titleContains = titleNormalized.includes(queryNormalized)
+  const descriptionContains = descriptionNormalized.includes(queryNormalized)
+  const verseContains = verseNormalized.includes(queryNormalized)
+  const citeContains = citeNormalized.includes(queryNormalized)
+
+  return (
+    titleExactMatch ||
+    descriptionExactMatch ||
+    tagsContains ||
+    verseExactMatch ||
+    citeExactMatch ||
+    verseContains ||
+    citeContains ||
+    titleContains ||
+    descriptionContains
+  )
+})
+
+const MAX_POSTS_TO_SHOW = 8
+const currentPage = Astro.url.searchParams.get('p') !== null ? +Astro.url.searchParams.get('p')! : 1
+const totalPages = Math.ceil(filteredDevotionals.length / MAX_POSTS_TO_SHOW)
+const devotionalsPerPage = filteredDevotionals.slice(
+  (currentPage - 1) * MAX_POSTS_TO_SHOW,
+  currentPage * MAX_POSTS_TO_SHOW
+)
+---
+
+<RootLayout
+  title={generateSiteTitle(i18n.books.meta.title)}
+  description={i18n.books.meta.description}>
+  <main>
+    <section class='py-32 pb-44 lg:pt-44'>
+      <div class='container-grid'>
+        <Heading size='sm' tablet='base' class='line-clamp-2'>
+          {i18n.common.labels.resultsFor}:
+          {' '}
+          {query}
+        </Heading>
+        <div class='flex items-center gap-8 mt-8'>
+          <Text tv='lg' type='label' class='text-primary-base'>{filteredDevotionals.length}</Text>
+          <Text tv='lg'
+            >{
+              filteredDevotionals.length === 1
+                ? i18n.common.labels.studyFound
+                : i18n.common.labels.studiesFound
+            }</Text
+          >
+        </div>
+        <form action='' class='relative mt-20 max-w-screen-sm' id='form'>
+          <Label class='sr-only' for='q'>{i18n.common.form.search.label}</Label>
+          <InputSearch
+            placeholder={i18n.common.form.search.placeholder}
+            id='q'
+            name='q'
+            value={query}
+            class='pr-[110px]'
+          />
+          <Button
+            id='search-btn'
+            class='active [&.active]:flex hidden absolute top-[50%] -translate-y-[50%] right-2'
+            size='sm'>{i18n.common.actions.search}</Button
+          >
+        </form>
+      </div>
+    </section>
+    <section class='bg-surface pt-44 pb-82'>
+      {devotionalsPerPage.length === 0 && <EmptySearch />}
+      {
+        devotionalsPerPage.length > 0 && (
+          <>
+            <div class='container-grid grid gap-24 md:grid-cols-2' id='posts'>
+              {devotionalsPerPage.map(devotional => (
+                <DevotionalCard
+                  class='h-auto'
+                  title={devotional.data.title}
+                  slug={devotional.slug}
+                  description={devotional.data.description}
+                  createdAt={devotional.data.createdAt}
+                  cite={devotional.data.cite}
+                  slug={devotional.slug}
+                />
+              ))}
+            </div>
+            <Pagination
+              currentPage={currentPage}
+              isFirstPage={currentPage === 1}
+              isLastPage={currentPage === totalPages}
+              totalPages={totalPages}
+              url={`?q=${query}`}
+              notFirst
+              class='container-grid mt-36'
+            />
+          </>
+        )
+      }
+    </section>
+  </main>
+</RootLayout>
+
+<script>
+  const searchInput = document.getElementById('q') as HTMLInputElement
+  const searchBtn = document.getElementById('search-btn') as HTMLButtonElement
+  const form = document.getElementById('form') as HTMLFormElement
+
+  form.addEventListener('submit', e => {
+    if (searchInput.value.length < 2) e.preventDefault()
+  })
+
+  searchInput.addEventListener('input', e => {
+    const input = e.target as HTMLInputElement
+
+    if (input.value.length >= 2) {
+      searchBtn.classList.add('active')
+      searchInput.classList.remove('search-none')
+    } else {
+      searchBtn.classList.remove('active')
+      searchInput.classList.add('search-none')
+    }
+  })
+</script>

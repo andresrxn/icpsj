@@ -1,0 +1,631 @@
+---
+import { cn } from '@/utils/theme'
+import type { HTMLAttributes } from 'astro/types'
+import { cva, type VariantProps } from 'class-variance-authority'
+
+const textVariants = cva('font-body text-ellipsis text-pretty', {
+  variants: {
+    center: {
+      true: 'text-center w-full'
+    },
+    type: {
+      paragraph: 'text-base',
+      inline: 'inline text-base max-w-max',
+      label: 'block text-base'
+    },
+    size: {
+      xs: true,
+      sm: true,
+      base: true,
+      lg: true,
+      xl: true,
+      '2xl': true,
+      '3xl': true,
+      '4xl': true,
+      '5xl': true
+    },
+    tablet: {
+      xs: true,
+      sm: true,
+      base: true,
+      lg: true,
+      xl: true,
+      '2xl': true,
+      '3xl': true,
+      '4xl': true,
+      '5xl': true
+    },
+    laptop: {
+      xs: true,
+      sm: true,
+      base: true,
+      lg: true,
+      xl: true,
+      '2xl': true,
+      '3xl': true,
+      '4xl': true,
+      '5xl': true
+    },
+    desktop: {
+      xs: true,
+      sm: true,
+      base: true,
+      lg: true,
+      xl: true,
+      '2xl': true,
+      '3xl': true,
+      '4xl': true,
+      '5xl': true
+    },
+    tv: {
+      xs: true,
+      sm: true,
+      base: true,
+      lg: true,
+      xl: true,
+      '2xl': true,
+      '3xl': true,
+      '4xl': true,
+      '5xl': true
+    },
+
+    priority: {
+      primary: 'text-base',
+      secondary: 'text-base-subtle',
+      tertiary: 'text-base-subtler'
+    },
+    characters: {
+      sm: 'max-w-prose-sm',
+      base: 'max-w-prose-base',
+      lg: 'max-w-prose-lg'
+    },
+    inverted: {
+      true: 'text-base-inverted',
+      fixed: 'text-base-inverted-fixed'
+    }
+  },
+  compoundVariants: [
+    {
+      center: true,
+      class: 'mx-auto'
+    },
+    {
+      type: 'paragraph',
+      size: 'xs',
+      className: 'text-body-xs'
+    },
+    {
+      type: 'paragraph',
+      size: 'sm',
+      className: 'text-body-sm'
+    },
+    {
+      type: 'paragraph',
+      size: 'base',
+      className: 'text-body-base'
+    },
+    {
+      type: 'paragraph',
+      size: 'lg',
+      className: 'text-body-lg'
+    },
+    {
+      type: 'paragraph',
+      size: 'xl',
+      className: 'text-body-xl'
+    },
+
+    {
+      type: 'inline',
+      size: 'xs',
+      className: 'text-body-xs'
+    },
+    {
+      type: 'inline',
+      size: 'sm',
+      className: 'text-body-sm'
+    },
+    {
+      type: 'inline',
+      size: 'base',
+      className: 'text-body-base'
+    },
+    {
+      type: 'inline',
+      size: 'lg',
+      className: 'text-body-lg'
+    },
+    {
+      type: 'inline',
+      size: 'xl',
+      className: 'text-body-xl'
+    },
+
+    {
+      type: 'label',
+      size: 'xs',
+      className: 'text-label-xs'
+    },
+    {
+      type: 'label',
+      size: 'sm',
+      className: 'text-label-sm'
+    },
+    {
+      type: 'label',
+      size: 'base',
+      className: 'text-label-base'
+    },
+    {
+      type: 'label',
+      size: 'lg',
+      className: 'text-label-lg'
+    },
+    {
+      type: 'label',
+      size: 'xl',
+      className: 'text-label-xl'
+    },
+    {
+      type: 'label',
+      size: '2xl',
+      className: 'text-label-2xl'
+    },
+    {
+      type: 'label',
+      size: '3xl',
+      className: 'text-label-3xl'
+    },
+    {
+      type: 'label',
+      size: '4xl',
+      className: 'text-label-4xl'
+    },
+    {
+      type: 'label',
+      size: '5xl',
+      className: 'text-label-5xl'
+    },
+
+    {
+      type: 'paragraph',
+      tablet: 'xs',
+      className: 'md:text-body-xs'
+    },
+    {
+      type: 'paragraph',
+      tablet: 'sm',
+      className: 'md:text-body-sm'
+    },
+    {
+      type: 'paragraph',
+      tablet: 'base',
+      className: 'md:text-body-base'
+    },
+    {
+      type: 'paragraph',
+      tablet: 'lg',
+      className: 'md:text-body-lg'
+    },
+    {
+      type: 'paragraph',
+      tablet: 'xl',
+      className: 'md:text-body-xl'
+    },
+
+    {
+      type: 'inline',
+      tablet: 'xs',
+      className: 'md:text-body-xs'
+    },
+    {
+      type: 'inline',
+      tablet: 'sm',
+      className: 'md:text-body-sm'
+    },
+    {
+      type: 'inline',
+      tablet: 'base',
+      className: 'md:text-body-base'
+    },
+    {
+      type: 'inline',
+      tablet: 'lg',
+      className: 'md:text-body-lg'
+    },
+    {
+      type: 'inline',
+      tablet: 'xl',
+      className: 'md:text-body-xl'
+    },
+
+    {
+      type: 'label',
+      tablet: 'xs',
+      className: 'md:text-label-xs'
+    },
+    {
+      type: 'label',
+      tablet: 'sm',
+      className: 'md:text-label-sm'
+    },
+    {
+      type: 'label',
+      tablet: 'base',
+      className: 'md:text-label-base'
+    },
+    {
+      type: 'label',
+      tablet: 'lg',
+      className: 'md:text-label-lg'
+    },
+    {
+      type: 'label',
+      tablet: 'xl',
+      className: 'md:text-label-xl'
+    },
+    {
+      type: 'label',
+      tablet: '2xl',
+      className: 'md:text-label-2xl'
+    },
+    {
+      type: 'label',
+      tablet: '3xl',
+      className: 'md:text-label-3xl'
+    },
+    {
+      type: 'label',
+      tablet: '4xl',
+      className: 'md:text-label-4xl'
+    },
+    {
+      type: 'label',
+      tablet: '5xl',
+      className: 'md:text-label-5xl'
+    },
+
+    {
+      type: 'paragraph',
+      laptop: 'xs',
+      className: 'lg:text-body-xs'
+    },
+    {
+      type: 'paragraph',
+      laptop: 'sm',
+      className: 'lg:text-body-sm'
+    },
+    {
+      type: 'paragraph',
+      laptop: 'base',
+      className: 'lg:text-body-base'
+    },
+    {
+      type: 'paragraph',
+      laptop: 'lg',
+      className: 'lg:text-body-lg'
+    },
+    {
+      type: 'paragraph',
+      laptop: 'xl',
+      className: 'lg:text-body-xl'
+    },
+
+    {
+      type: 'inline',
+      laptop: 'xs',
+      className: 'lg:text-body-xs'
+    },
+    {
+      type: 'inline',
+      laptop: 'sm',
+      className: 'lg:text-body-sm'
+    },
+    {
+      type: 'inline',
+      laptop: 'base',
+      className: 'lg:text-body-base'
+    },
+    {
+      type: 'inline',
+      laptop: 'lg',
+      className: 'lg:text-body-lg'
+    },
+    {
+      type: 'inline',
+      laptop: 'xl',
+      className: 'lg:text-body-xl'
+    },
+
+    {
+      type: 'label',
+      laptop: 'xs',
+      className: 'lg:text-label-xs'
+    },
+    {
+      type: 'label',
+      laptop: 'sm',
+      className: 'lg:text-label-sm'
+    },
+    {
+      type: 'label',
+      laptop: 'base',
+      className: 'lg:text-label-base'
+    },
+    {
+      type: 'label',
+      laptop: 'lg',
+      className: 'lg:text-label-lg'
+    },
+    {
+      type: 'label',
+      laptop: 'xl',
+      className: 'lg:text-label-xl'
+    },
+    {
+      type: 'label',
+      laptop: '2xl',
+      className: 'lg:text-label-2xl'
+    },
+    {
+      type: 'label',
+      laptop: '3xl',
+      className: 'lg:text-label-3xl'
+    },
+    {
+      type: 'label',
+      laptop: '4xl',
+      className: 'lg:text-label-4xl'
+    },
+    {
+      type: 'label',
+      laptop: '5xl',
+      className: 'lg:text-label-5xl'
+    },
+
+    {
+      type: 'paragraph',
+      desktop: 'xs',
+      className: 'xl:text-body-xs'
+    },
+    {
+      type: 'paragraph',
+      desktop: 'sm',
+      className: 'xl:text-body-sm'
+    },
+    {
+      type: 'paragraph',
+      desktop: 'base',
+      className: 'xl:text-body-base'
+    },
+    {
+      type: 'paragraph',
+      desktop: 'lg',
+      className: 'xl:text-body-lg'
+    },
+    {
+      type: 'paragraph',
+      desktop: 'xl',
+      className: 'xl:text-body-xl'
+    },
+
+    {
+      type: 'inline',
+      desktop: 'xs',
+      className: 'xl:text-body-xs'
+    },
+    {
+      type: 'inline',
+      desktop: 'sm',
+      className: 'xl:text-body-sm'
+    },
+    {
+      type: 'inline',
+      desktop: 'base',
+      className: 'xl:text-body-base'
+    },
+    {
+      type: 'inline',
+      desktop: 'lg',
+      className: 'xl:text-body-lg'
+    },
+    {
+      type: 'inline',
+      desktop: 'xl',
+      className: 'xl:text-body-xl'
+    },
+
+    {
+      type: 'label',
+      desktop: 'xs',
+      className: 'xl:text-label-xs'
+    },
+    {
+      type: 'label',
+      desktop: 'sm',
+      className: 'xl:text-label-sm'
+    },
+    {
+      type: 'label',
+      desktop: 'base',
+      className: 'xl:text-label-base'
+    },
+    {
+      type: 'label',
+      desktop: 'lg',
+      className: 'xl:text-label-lg'
+    },
+    {
+      type: 'label',
+      desktop: 'xl',
+      className: 'xl:text-label-xl'
+    },
+    {
+      type: 'label',
+      desktop: '2xl',
+      className: 'xl:text-label-2xl'
+    },
+    {
+      type: 'label',
+      desktop: '3xl',
+      className: 'xl:text-label-3xl'
+    },
+    {
+      type: 'label',
+      desktop: '4xl',
+      className: 'xl:text-label-4xl'
+    },
+    {
+      type: 'label',
+      desktop: '5xl',
+      className: 'xl:text-label-5xl'
+    },
+
+    {
+      type: 'paragraph',
+      tv: 'xs',
+      className: '2xl:text-body-xs'
+    },
+    {
+      type: 'paragraph',
+      tv: 'sm',
+      className: '2xl:text-body-sm'
+    },
+    {
+      type: 'paragraph',
+      tv: 'base',
+      className: '2xl:text-body-base'
+    },
+    {
+      type: 'paragraph',
+      tv: 'lg',
+      className: '2xl:text-body-lg'
+    },
+    {
+      type: 'paragraph',
+      tv: 'xl',
+      className: '2xl:text-body-xl'
+    },
+
+    {
+      type: 'inline',
+      tv: 'xs',
+      className: '2xl:text-body-xs'
+    },
+    {
+      type: 'inline',
+      tv: 'sm',
+      className: '2xl:text-body-sm'
+    },
+    {
+      type: 'inline',
+      tv: 'base',
+      className: '2xl:text-body-base'
+    },
+    {
+      type: 'inline',
+      tv: 'lg',
+      className: '2xl:text-body-lg'
+    },
+    {
+      type: 'inline',
+      tv: 'xl',
+      className: '2xl:text-body-xl'
+    },
+
+    {
+      type: 'label',
+      tv: 'xs',
+      className: '2xl:text-label-xs'
+    },
+    {
+      type: 'label',
+      tv: 'sm',
+      className: '2xl:text-label-sm'
+    },
+    {
+      type: 'label',
+      tv: 'base',
+      className: '2xl:text-label-base'
+    },
+    {
+      type: 'label',
+      tv: 'lg',
+      className: '2xl:text-label-lg'
+    },
+    {
+      type: 'label',
+      tv: 'xl',
+      className: '2xl:text-label-xl'
+    },
+    {
+      type: 'label',
+      tv: '2xl',
+      className: '2xl:text-label-2xl'
+    },
+    {
+      type: 'label',
+      tv: '3xl',
+      className: '2xl:text-label-3xl'
+    },
+    {
+      type: 'label',
+      tv: '4xl',
+      className: '2xl:text-label-4xl'
+    },
+    {
+      type: 'label',
+      tv: '5xl',
+      className: '2xl:text-label-5xl'
+    }
+  ],
+
+  defaultVariants: {
+    center: false,
+    type: 'paragraph',
+    priority: 'primary',
+    size: 'base',
+    inverted: false
+  }
+})
+
+interface Props extends HTMLAttributes<'p'>, VariantProps<typeof textVariants> {}
+
+const {
+  center,
+  size = 'base',
+  tablet,
+  laptop,
+  desktop,
+  tv,
+  type = 'paragraph',
+  priority,
+  characters,
+  inverted,
+  class: className,
+  ...props
+} = Astro.props
+
+const Tag = type === 'label' || type === 'inline' ? 'span' : 'p'
+---
+
+<Tag
+  class={cn(
+    textVariants({
+      center,
+      characters,
+      inverted,
+      priority,
+      size,
+      type,
+      tablet,
+      laptop,
+      desktop,
+      tv
+    }),
+
+    className
+  )}
+  {...props}>
+  <slot />
+</Tag>

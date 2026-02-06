@@ -1,0 +1,28 @@
+---
+import Text from '@/components/typography/Text.astro'
+import { getI18N } from '@/i18n'
+import { getLangFromUrl } from '@/i18n/utils'
+import { cn } from '@/utils/theme'
+import type { HTMLAttributes } from 'astro/types'
+import { BookDashed } from 'lucide-astro'
+
+const lang = getLangFromUrl(Astro.url)
+const i18n = getI18N({ currentLocale: lang })
+
+interface Props extends HTMLAttributes<'div'> {}
+
+const { class: className, ...props } = Astro.props
+---
+
+<div
+  class={cn(
+    'container-grid flex items-center justify-center rounded-base max-w-screen-sm p-20 h-[300px] flex-col gap-8',
+    className
+  )}
+  {...props}>
+  <BookDashed class='size-icon-lg text-icon-base-subtler scale-200 mb-32' />
+  <Text type='label' size='lg'>
+    {i18n.common.labels.emptyResultsTitle}
+  </Text>
+  <Text priority='secondary'>{i18n.common.labels.emptyResultsDescription}</Text>
+</div>

@@ -1,0 +1,186 @@
+---
+import Divider from '@/components/Divider.astro'
+import Link from '@/components/Link.astro'
+import LinkButton from '@/components/LinkButton.astro'
+import DevotionalCard from '@/components/devotionals/DevotionalCard.astro'
+import Facebook from '@/components/icons/Facebook.astro'
+import Telegram from '@/components/icons/Telegram.astro'
+import Twitter from '@/components/icons/Twitter.astro'
+import WhatsApp from '@/components/icons/WhatsApp.astro'
+import Blockquote from '@/components/typography/Blockquote.astro'
+import Heading from '@/components/typography/Heading.astro'
+import Text from '@/components/typography/Text.astro'
+import { getI18N } from '@/i18n'
+import { getLangFromUrl, useTranslatedPath } from '@/i18n/utils'
+import RootLayout from '@/layouts/RootLayout.astro'
+import type { CollectionEntry } from 'astro:content'
+import { getCollection } from 'astro:content'
+import { Mail } from 'lucide-astro'
+import FormattedDate from '../components/FormattedDate.astro'
+
+const lang = getLangFromUrl(Astro.url)
+const i18n = getI18N({ currentLocale: lang })
+const translatePath = useTranslatedPath(lang)
+
+type Props = { slug: string } & CollectionEntry<'devotionals'>['data']
+const { slug, title, description, createdAt, updatedAt, cite, tags, verse } = Astro.props
+
+const devotionals = (
+  await getCollection('devotionals', entry => {
+    return entry.slug.startsWith(lang) && entry.slug !== lang + '/' + slug
+  })
+).sort((a, b) => b.data.createdAt.valueOf() - a.data.createdAt.valueOf())
+---
+
+<RootLayout title={title} description={description}>
+  <main>
+    <article>
+      <section class='grid gap-12 pt-44'>
+        <div class='max-w-screen-md grid gap-10 container-grid'>
+          <div class='flex items-center gap-12 md:gap-20 mb-6'>
+            <FormattedDate date={createdAt} class='text-base-subtle' />
+            {
+              updatedAt && (
+                <Text>
+                  {i18n.common.labels.updated}:{' '}
+                  <FormattedDate date={updatedAt} class='text-base-subtle' />
+                </Text>
+              )
+            }
+          </div>
+          <Heading size='sm' tablet='base' tv='lg'>{title}</Heading>
+          <Text tv='lg'>{description}</Text>
+          <div class='flex items-center gap-8 mt-12'>
+            <LinkButton
+              href={`https://www.facebook.com/sharer/sharer.php?u=${Astro.url}`}
+              target='_blank'
+              size='icon'
+              variant='outline'
+              title={`${i18n.common.actions.shareOn} Facebook`}>
+              <Facebook class='size-icon-sm' />
+            </LinkButton>
+            <LinkButton
+              href={`https://twitter.com/intent/tweet?text=${title}&url=${Astro.url}`}
+              target='_blank'
+              size='icon'
+              variant='outline'
+              title={`${i18n.common.actions.shareOn} Twitter`}>
+              <Twitter class='size-icon-sm' />
+            </LinkButton>
+            <LinkButton
+              href={`https://t.me/share/url?url=${Astro.url}&text=${title}`}
+              target='_blank'
+              size='icon'
+              variant='outline'
+              title={`${i18n.common.actions.shareOn} Telegram`}>
+              <Telegram class='size-icon-sm' />
+            </LinkButton>
+            <LinkButton
+              href={`https://api.whatsapp.com/send?text=${title}%20+${Astro.url}`}
+              target='_blank'
+              size='icon'
+              variant='outline'
+              title={`${i18n.common.actions.shareOn} WhatsApp`}>
+              <WhatsApp class='size-icon-sm' />
+            </LinkButton>
+            <LinkButton
+              href={`mailto:?subject=${title}&body=${description}%20${Astro.url}`}
+              target='_blank'
+              size='icon'
+              variant='outline'
+              title={`${i18n.common.actions.shareOn} Email`}>
+              <Mail class='size-icon-sm text-icon-base' />
+            </LinkButton>
+          </div>
+          <div class='flex gap-20 mt-12'>
+            {
+              tags.map((tag: string) => (
+                <Link
+                  href={`${translatePath('/devocionales')}/tags/${tag}`}
+                  variant='base'
+                  class='text-primary-base 2xl:text-body-lg'>
+                  #{tag}
+                </Link>
+              ))
+            }
+          </div>
+          <div class='mt-24 bg-primary-subtler p-20 rounded-base border-accent-orange border'>
+            <Blockquote class='pl-12 border-none' cite={cite}>{verse}</Blockquote>
+          </div>
+        </div>
+      </section>
+      <section class='container-grid md:max-w-screen-md grid gap-24 md:gap-32 py-40'>
+        <slot />
+        <Divider full class='my-12' />
+        <div class='flex flex-col gap-14'>
+          <Text type='label' tablet='lg'>{i18n.common.actions.shareOn}</Text>
+          <div class='flex items-center gap-8'>
+            <LinkButton
+              href={`https://www.facebook.com/sharer/sharer.php?u=${Astro.url}`}
+              target='_blank'
+              size='icon'
+              variant='outline'
+              title={`${i18n.common.actions.shareOn} Facebook`}>
+              <Facebook class='size-icon-sm' />
+            </LinkButton>
+            <LinkButton
+              href={`https://twitter.com/intent/tweet?text=${title}&url=${Astro.url}`}
+              target='_blank'
+              size='icon'
+              variant='outline'
+              title={`${i18n.common.actions.shareOn} Twitter`}>
+              <Twitter class='size-icon-sm' />
+            </LinkButton>
+            <LinkButton
+              href={`https://t.me/share/url?url=${Astro.url}&text=${title}`}
+              target='_blank'
+              size='icon'
+              variant='outline'
+              title={`${i18n.common.actions.shareOn} Telegram`}>
+              <Telegram class='size-icon-sm' />
+            </LinkButton>
+            <LinkButton
+              href={`https://api.whatsapp.com/send?text=${title}%20+${Astro.url}`}
+              target='_blank'
+              size='icon'
+              variant='outline'
+              title={`${i18n.common.actions.shareOn} WhatsApp`}>
+              <WhatsApp class='size-icon-sm' />
+            </LinkButton>
+            <LinkButton
+              href={`mailto:?subject=${title}&body=${description}%20${Astro.url}`}
+              target='_blank'
+              size='icon'
+              variant='outline'
+              title={`${i18n.common.actions.shareOn} Email`}>
+              <Mail class='size-icon-sm text-icon-base' />
+            </LinkButton>
+          </div>
+        </div>
+      </section>
+
+      <section class='py-60 mt-24 bg-surface'>
+        <div class='container-grid'>
+          <Heading size='sm' level={2} tablet='base'>{i18n.common.labels.recomendations}</Heading>
+
+          <div class='grid gap-24 md:grid-cols-2 mt-24'>
+            {
+              devotionals
+                .slice(0, 4)
+                .map(devotional => (
+                  <DevotionalCard
+                    class='h-auto'
+                    cite={devotional.data.cite}
+                    createdAt={devotional.data.createdAt}
+                    description={devotional.data.description}
+                    slug={devotional.slug}
+                    title={devotional.data.title}
+                  />
+                ))
+            }
+          </div>
+        </div>
+      </section>
+    </article>
+  </main>
+</RootLayout>

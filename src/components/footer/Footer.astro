@@ -1,0 +1,118 @@
+---
+import Divider from '@/components/Divider.astro'
+import LinkButton from '@/components/LinkButton.astro'
+import FooterLink from '@/components/footer/FooterLink.astro'
+import Facebook from '@/components/icons/Facebook.astro'
+
+import Instagram from '@/components/icons/Instagram.astro'
+import WhatsApp from '@/components/icons/WhatsApp.astro'
+import YouTube from '@/components/icons/YouTube.astro'
+import DonationBanner from '@/components/sections/DonationBanner.astro'
+import Heading from '@/components/typography/Heading.astro'
+import Text from '@/components/typography/Text.astro'
+import { COMPANY, IMAGES, SITE } from '@/consts'
+import { getI18N } from '@/i18n'
+import { getLangFromUrl, useTranslatedPath } from '@/i18n/utils'
+
+import type { HTMLAttributes } from 'astro/types'
+
+interface Props extends HTMLAttributes<'footer'> {}
+const { class: className, ...props } = Astro.props
+
+const lang = getLangFromUrl(Astro.url)
+const i18n = getI18N({ currentLocale: lang })
+const translatePath = useTranslatedPath(lang)
+---
+
+<DonationBanner />
+<footer {...props} class='bg-base-subtle py-28'>
+  <div class='container-grid'>
+    <div class='mt-20 grid gap-x-16 gap-y-44 grid-cols-2 md:grid-cols-3 xl:grid-cols-4 lg:gap-x-52'>
+      <div class='col-span-2 md:col-span-3 xl:col-span-1'>
+        <img src={IMAGES.LOGOS.LOGO_INVERTED} alt={`Logo ${SITE.TITLE}`} class='w-[200px]' />
+        <div class='flex items-center gap-12 mt-20'>
+          <LinkButton href={COMPANY.SOCIAL.YOUTUBE} size='icon' variant='outline'>
+            <YouTube class='size-icon-sm' />
+          </LinkButton>
+          <LinkButton href={COMPANY.SOCIAL.INSTAGRAM} size='icon' variant='outline'>
+            <Instagram class='size-icon-sm' />
+          </LinkButton>
+          <LinkButton href={COMPANY.SOCIAL.FACEBOOK} size='icon' variant='outline'>
+            <Facebook class='size-icon-sm' />
+          </LinkButton>
+          <LinkButton href={COMPANY.SOCIAL.WHATSAPP} size='icon' variant='outline'>
+            <WhatsApp class='size-icon-sm' />
+          </LinkButton>
+        </div>
+      </div>
+      <Divider class='col-span-2 md:col-span-3 xl:hidden' />
+      <div class='pl-8 lg:pl-0'>
+        <Heading size='sm' level={4}>{i18n.common.footer.titles.principal}</Heading>
+        <ul class='mt-20 grid gap-14'>
+          <li>
+            <FooterLink href={translatePath('/estudios')}>{i18n.common.links.studies}</FooterLink>
+          </li>
+          <li>
+            <FooterLink href={translatePath('/devocionales')}
+              >{i18n.common.links.devotionals}</FooterLink
+            >
+          </li>
+          <li>
+            <FooterLink href={translatePath('/recursos')}>{i18n.common.links.resources}</FooterLink>
+          </li>
+          <li>
+            <FooterLink class='disabled' href='/quiz'>Quiz ({i18n.common.labels.soon})</FooterLink>
+          </li>
+        </ul>
+      </div>
+      <div class='pl-8 lg:pl-0'>
+        <Heading size='sm' level={4}>{i18n.common.footer.titles.legal}</Heading>
+        <ul class='mt-20 grid gap-14'>
+          <li>
+            <FooterLink href={translatePath('/politica-de-privacidad')}
+              >{i18n.common.links.privacy}</FooterLink
+            >
+          </li>
+          <li>
+            <FooterLink href={translatePath('/terminos-y-condiciones')}
+              >{i18n.common.links.terms}</FooterLink
+            >
+          </li>
+          <li>
+            <FooterLink href={translatePath('/politica-de-cookies')}
+              >{i18n.common.links.cookies}</FooterLink
+            >
+          </li>
+        </ul>
+      </div>
+      <div class='pl-8 lg:pl-0'>
+        <Heading size='sm' level={4}>{i18n.common.footer.titles.church}</Heading>
+        <ul class='mt-20 grid gap-14'>
+          <li>
+            <FooterLink href={translatePath('/')}>{i18n.common.links.home}</FooterLink>
+          </li>
+          <li>
+            <FooterLink href={translatePath('/acerca-de')}>{i18n.common.links.about}</FooterLink>
+          </li>
+          <li>
+            <FooterLink href={translatePath('/horarios')}>{i18n.common.links.schedule}</FooterLink>
+          </li>
+          <li>
+            <FooterLink href={translatePath('/oracion')}>{i18n.common.links.prayer}</FooterLink>
+          </li>
+          <li>
+            <FooterLink href={translatePath('/contacto')}>{i18n.common.links.contact}</FooterLink>
+          </li>
+        </ul>
+      </div>
+
+      <Divider class='col-span-2 md:col-span-3 xl:col-span-4' />
+    </div>
+
+    <div class='flex lg:justify-center items-center mt-40 md:mt-28'>
+      <Text center priority='tertiary' size='xs'>
+        {SITE.TITLE_LONG} &copy; Copyright 2026.
+      </Text>
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,57 @@
+---
+import Text from '@/components/typography/Text.astro'
+import type { HTMLAttributes } from 'astro/types'
+
+interface Props extends HTMLAttributes<'dialog'> {
+  title: string
+  description?: string
+  open?: boolean
+  closable?: boolean
+}
+
+const { title, closable = true, description, id, open = false, ...props } = Astro.props
+---
+
+<dialog class='relative z-1000' aria-labelledby={title} open={open} id={id} data-modal>
+  <div
+    class='fixed inset-0 bg-gradient-to-t from-blanket-start to-blanket-stop transition-opacity w-screen'
+    data-close-modal={closable}>
+    <div class='min-h-full flex flex-col items-center justify-center'>
+      <div
+        class='bg-surface container-grid flex-initial rounded-base max-w-[450px] lg:max-w-[550px] max-h-[97vh] overflow-hidden flex flex-col'
+        {...props}
+        data-modal-surface>
+        <header
+          class='p-16 mb-12 border-b bg-base rounded-tl-base rounded-tr-base grid gap-6 shrink-0'>
+          <Text size='lg' type='label'>{title}</Text>
+          {
+            description && (
+              <Text priority='secondary' size='sm'>
+                {description}
+              </Text>
+            )
+          }
+        </header>
+        <section class='p-16 overflow-y-auto flex-1 h-full'>
+          <slot name='content' />
+        </section>
+        <footer class='p-16 mt-12 border-t bg-base rounded-bl-base rounded-br-base shrink-0'>
+          <slot name='footer' />
+        </footer>
+      </div>
+    </div>
+  </div>
+</dialog>
+
+<script>
+  const closeModalActivators = document.querySelectorAll('[data-close-modal]')
+  const dialog = closeModalActivators[0]?.closest('[data-modal]') as HTMLDialogElement
+  const modalSurface = dialog?.querySelector('[data-modal-surface]')
+
+  modalSurface?.addEventListener('click', e => e.stopPropagation())
+  closeModalActivators.forEach(el => {
+    el.addEventListener('click', () => {
+      dialog?.close()
+    })
+  })
+</script>

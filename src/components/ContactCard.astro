@@ -1,0 +1,36 @@
+---
+import Link from '@/components/Link.astro'
+import Text from '@/components/typography/Text.astro'
+import type { HTMLAttributes } from 'astro/types'
+
+interface Props extends HTMLAttributes<'article'> {
+  icon: astroHTML.JSX.Element
+  label: string
+  href: string
+  contactPoint: string
+  external?: boolean
+}
+const {
+  class: className,
+  external = false,
+  href,
+  icon: Icon,
+  label,
+  contactPoint,
+  ...props
+} = Astro.props
+---
+
+<article class='flex items-center justify-center gap-8 flex-col relative' {...props}>
+  <div class='size-56 scale-125 bg-primary-subtler rounded-full top-0 absolute origin-center'></div>
+  <div
+    class='size-56 rounded-full flex items-center justify-center bg-primary-subtle relative after:origin-center mb-16'>
+    <Icon class='size-icon-lg text-icon-primary' />
+  </div>
+  <Text center type='label' size='sm'>{label}</Text>
+  <Text center type='inline'
+    ><Link variant='base' target={external ? '_blank' : '_self'} icon={external} href={href}
+      >{contactPoint}</Link
+    >
+  </Text>
+</article>

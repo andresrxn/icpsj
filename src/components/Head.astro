@@ -1,0 +1,93 @@
+---
+import HrefLangs from '@/components/HrefLangs.astro'
+import { COMPANY, SITE } from '@/consts'
+import { getI18N } from '@/i18n'
+import { getLangFromUrl } from '@/i18n/utils'
+
+const lang = getLangFromUrl(Astro.url)
+const i18n = getI18N({ currentLocale: lang })
+
+export interface Props {
+  title: string
+  description: string
+  image?: string
+  preload?: { url: string; as: string; crossorigin?: boolean }[]
+}
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site)
+
+const { title, description, image = SITE.SEO.IMAGES.BANNER_SOCIAL } = Astro.props
+---
+
+<!-- Global Metadata -->
+<meta charset='utf-8' />
+<meta name='viewport' content='width=device-width,initial-scale=1' />
+
+<title>{title}</title>
+<meta name='description' content={description} />
+<meta name='keywords' content={i18n.common.site.keywords} />
+
+<meta name='robots' content='index, follow' />
+<link rel='sitemap' href={SITE.SEO.FILES.SITEMAP} />
+
+<!-- Canonical/Alternate URL -->
+<link rel='canonical' href={canonicalURL} />
+<HrefLangs />
+<link rel='alternate' type='application/rss+xml' title={SITE.TITLE} href={`${Astro.site}rss.xml`} />
+
+<!-- Preload -->
+<slot name='preload' />
+
+<!-- Open Graph / Facebook -->
+<meta property='og:type' content='website' />
+<meta property='og:url' content={Astro.url} />
+<meta property='og:title' content={title} />
+<meta property='og:description' content={description} />
+<meta property='og:image' content={new URL(image, Astro.url)} />
+<meta property='og:image:width' content='1200' />
+<meta property='og:image:height' content='630' />
+<meta property='og:image:alt' content={i18n.common.images.og} />
+<meta property='og:site_name' content={SITE.TITLE} />
+<meta property='og:locale' content={lang} />
+<meta property='og:country-name' content={COMPANY.ADDRESS.COUNTRY_CODE} />
+
+<!-- Twitter -->
+<meta property='twitter:card' content='summary_large_image' />
+<meta property='twitter:url' content={Astro.url} />
+<meta property='twitter:title' content={title} />
+<meta property='twitter:description' content={description} />
+<meta property='twitter:image' content={new URL(image, Astro.url)} />
+
+<!-- Icons -->
+<link rel='apple-touch-icon' sizes='180x180' href={SITE.SEO.IMAGES.ICON.APPLE} />
+<link rel='icon' type='image/png' sizes='32x32' href={SITE.SEO.IMAGES.ICON.ICO_32} />
+<link rel='icon' type='image/png' sizes='16x16' href={SITE.SEO.IMAGES.ICON.ICO_16} />
+<link rel='icon' type='image/x-icon' href={SITE.SEO.IMAGES.ICON.ICO} />
+<link rel='mask-icon' href={SITE.SEO.IMAGES.ICON.SAFARI} color={SITE.SEO.COLOR_PRIMARY} />
+
+<!-- Config -->
+<meta name='theme-color' content={SITE.SEO.COLOR_PRIMARY} />
+<meta name='apple-mobile-web-app-title' content={SITE.TITLE_SHORT} />
+<meta name='application-name' content={SITE.TITLE_SHORT} />
+<meta name='msapplication-TileColor' content={SITE.SEO.COLOR_PRIMARY} />
+<meta name='msapplication-config' content={SITE.SEO.FILES.BROWSER_CONFIG} />
+<link rel='manifest' href={SITE.SEO.FILES.MANIFEST} />
+
+<meta
+  http-equiv='Content-Security-Policy'
+  content="
+    default-src 'self';
+    script-src 'self' 'unsafe-inline' https://www.youtube.com 'unsafe-inline';
+    style-src 'self' 'unsafe-inline';
+    object-src 'none';
+    img-src 'self' blob: data: https://i.ytimg.com https: 'unsafe-inline';
+    font-src 'self';
+    base-uri 'self';
+    frame-src 'self' https://www.youtube.com;
+    form-action 'self';
+    script-src-attr 'unsafe-inline';
+    upgrade-insecure-requests;"
+/>
+
+<!-- Schemas -->
+<slot name='schema' />

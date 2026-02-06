@@ -1,0 +1,26 @@
+---
+import Button from '@/components/Button.astro'
+import Heading from '@/components/typography/Heading.astro'
+import Text from '@/components/typography/Text.astro'
+import { getI18N } from '@/i18n'
+import { getLangFromUrl } from '@/i18n/utils'
+
+const lang = getLangFromUrl(Astro.url)
+const i18n = getI18N({ currentLocale: lang })
+---
+
+<section class='bg-primary-subtler py-28'>
+  <div class='container-grid flex flex-col gap-20 md:justify-between md:flex-row md:items-center'>
+    <div class='space-y-6'>
+      <Heading class='text-primary-bold' tv='base' level={3} size='sm'>
+        {i18n.common.donation.title}
+      </Heading>
+      <Text class='text-primary-base lg:text-body-base' size='sm' characters='base'>
+        {i18n.common.donation.description}
+      </Text>
+    </div>
+    <div>
+      <Button class='shadow-xl'>{i18n.common.actions.donate}</Button>
+    </div>
+  </div>
+</section>

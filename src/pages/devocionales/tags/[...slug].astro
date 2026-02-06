@@ -1,0 +1,55 @@
+---
+import DevotionalCard from '@/components/devotionals/DevotionalCard.astro'
+import Heading from '@/components/typography/Heading.astro'
+import Text from '@/components/typography/Text.astro'
+import { getI18N } from '@/i18n'
+import { getLangFromUrl } from '@/i18n/utils'
+import RootLayout from '@/layouts/RootLayout.astro'
+import { generateSiteTitle } from '@/utils/meta'
+import { getCollection } from 'astro:content'
+
+const lang = getLangFromUrl(Astro.url)
+const i18n = getI18N({ currentLocale: lang })
+
+const { slug } = Astro.params
+if (slug === undefined) {
+  return Astro.redirect('/404')
+}
+const devotionals = (
+  await getCollection('devotionals', entry => {
+    return entry.slug.startsWith(lang) && entry.data.tags.includes(slug)
+  })
+).sort((a, b) => b.data.createdAt.valueOf() - a.data.createdAt.valueOf())
+if (devotionals.length === 0) return Astro.redirect('/404')
+---
+
+<RootLayout
+  title={generateSiteTitle(i18n.books.meta.title)}
+  description={i18n.books.meta.description}>
+  <main>
+    <section class='py-32 lg:pt-44'>
+      <div class='container-grid'>
+        <Heading size='sm' tablet='base'>{i18n.common.labels.devotionalsOf} {' '} #{slug}</Heading>
+        <div class='flex items-center gap-8 mt-8'>
+          <Text tv='lg' type='label' class='text-primary-base'>{devotionals.length}</Text>
+          <Text tv='lg'>{i18n.common.labels.devotionalsFound}</Text>
+        </div>
+      </div>
+    </section>
+    <section class='bg-surface pt-32 pb-60'>
+      <div class='container-grid grid gap-24 md:grid-cols-2 mt-24'>
+        {
+          devotionals.map(devotional => (
+            <DevotionalCard
+              cite={devotional.data.cite}
+              createdAt={devotional.data.createdAt}
+              description={devotional.data.description}
+              slug={devotional.slug}
+              title={devotional.data.title}
+            />
+          ))
+        }
+      </div>
+    </section>
+  </main>
+</RootLayout>

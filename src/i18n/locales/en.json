@@ -1,0 +1,311 @@
+{
+  "common": {
+    "site": {
+      "description": "Christian guatemalan church spreding the love and word of God. Experience faith, worship and community.",
+      "keywords": "bible studies, Guatemalan church, biblie research, getting along with Jesús"
+    },
+    "links": {
+      "home": "Home",
+      "about": "About",
+      "studies": "Studies",
+      "devotionals": "Devotionals",
+      "resources": "Resources",
+      "schedule": "Schedule",
+      "prayer": "Prayer",
+      "privacy": "Privacy Policy",
+      "terms": "Terms and Conditions",
+      "cookies": "Cookies Policy",
+      "contact": "Contact"
+    },
+    "actions": {
+      "backToHome": "Back to home",
+      "moreDetails": "See more details",
+      "readFullChapter": "Read full chapter",
+      "cancel": "Cancel",
+      "share": "Share",
+      "shareVerse": "Share Verse",
+      "download": "Download",
+      "downloadImage": "Download Image",
+      "donate": "Offering/Donate",
+      "shareOn": "Share on",
+      "seeAllStudies": "See all studies",
+      "seeAllBooks": "See all books",
+      "playVideo": "Play Video",
+      "visit": "Visit",
+      "send": "Send",
+      "goToChat": "Go to Chat",
+      "seeChannel": "See Channel",
+      "seeProfile": "See Profile",
+      "seeContactMethods": "See contact methods",
+      "search": "Search"
+    },
+    "form": {
+      "search": {
+        "label": "Search",
+        "placeholder": "Search..."
+      },
+      "fullname": {
+        "label": "Full Name",
+        "placeholder": "John Smith"
+      },
+      "email": {
+        "label": "Email",
+        "placeholder": "name@example.com"
+      },
+      "phone": {
+        "label": "Phone Number",
+        "placeholder": "+1 555 555 5555"
+      },
+      "message": {
+        "label": "Message",
+        "placeholder": "Your message..."
+      },
+      "prayer": {
+        "from": {
+          "label": "Who is requesting the prayer"
+        },
+        "toWhom": {
+          "label": "Who should we pray for?",
+          "placeholder": "For me, my parents, my children, friends..."
+        },
+        "reasons": {
+          "label": "Reason(s) for the prayer",
+          "placeholder": "Illness, financial situation..."
+        },
+        "tellMore": {
+          "label": "Tell us more about the situation"
+        }
+      },
+      "termsAndPrivacy": {
+        "label": "i have read and accepted the <0>Privacy Policy</0> and the <1>Terms and Conditions</1> of the web site"
+      }
+    },
+    "images": {
+      "og": "Principal logo with a representation of church adorating",
+      "avatarCard": "Photograph representation",
+      "verseModal": "Generated image with verse on top and church logo on bottom"
+    },
+    "donation": {
+      "title": "Would you like to support the church?",
+      "description": "You can contribute through PayPal or with your credit/debit card."
+    },
+    "footer": {
+      "titles": {
+        "principal": "Principal",
+        "legal": "Legal",
+        "church": "Church"
+      }
+    },
+    "labels": {
+      "topic": "Tema",
+      "optional": "Optional",
+      "value": "Valor",
+      "generalPastor": "General Pastor",
+      "popularTags": "Popular Tags",
+      "soon": "Soon",
+      "recomendations": "Recomendations",
+      "updated": "Updated",
+      "bookOf": "Book of",
+      "devotionalsOf": "Devotionals about",
+      "studiesFound": "Studies found",
+      "booksFound": "Books found",
+      "devotionalsFound": "Devotionals found",
+      "studyFound": "Study found",
+      "bookFound": "Book found",
+      "devotionalFound": "Devotional found",
+      "next": "Next",
+      "prev": "Previous",
+      "resultsFor": "Results for",
+      "emptyResultsTitle": "No results found",
+      "emptyResultsDescription": "Try searching with different criteria"
+    }
+  },
+  "notFound": {
+    "title": "Page not found",
+    "description": "The requested page is not available"
+  },
+  "home": {
+    "sections": {
+      "services": {
+        "title": "Latest Service",
+        "description": "Don't miss any sermon, visit our <0>YouTube channel</0> and learn from all the shared topics."
+      },
+      "schedule": {
+        "title": "Schedule"
+      },
+      "studies": {
+        "title": "Bible Studies",
+        "description": "Expand your spiritual knowledge through various biblical themes."
+      },
+      "extra": {
+        "title": "Draw Closer to the Lord",
+        "description": "Discover different ways to stay in constant communion with the Lord."
+      },
+      "verseModal": {
+        "title": "Share Verse",
+        "description": "Spread the word of God to more people!"
+      }
+    }
+  },
+  "about": {
+    "meta": {
+      "title": "About us",
+      "description": "Learn more about our history, mission, and the leaders who guide our church."
+    },
+    "sections": {
+      "leadership": {
+        "title": "Leadership",
+        "description": "Pastors who guide and teach our church the Word of God",
+        "pastors": {}
+      },
+      "church": {
+        "title": "Serving since 2021",
+        "description": "We have been serving the community since 2021, sharing the message of hope and love of Jesus Christ.",
+        "history": {
+          "title": "History",
+          "description_1": "The Church was founded on January 10, 2021, with the mission of spreading the message of hope and love of Jesus Christ to the community, and since then we have been growing and serving the community.",
+          "description_2": "Since then, we have been growing and serving the community, and we are committed to continue spreading the message of hope and love of Jesus Christ to more people."
+        },
+        "mision": {
+          "title": "Mission",
+          "description": "To spread the message of hope and love of Jesus Christ to the community."
+        },
+        "vision": {
+          "title": "Vision",
+          "description": "To be a church that transforms lives through the love of Jesus Christ."
+        },
+        "values": {
+          "title": "Values",
+          "description": "These are the values that guide our church",
+          "value_1": "First the Kingdom of God",
+          "value_2": "Love God and neighbor",
+          "value_3": "Honesty and integrity",
+          "value_4": "Respect and tolerance",
+          "value_5": "Love and compassion"
+        },
+        "location": {
+          "title": "Location"
+        }
+      }
+    }
+  },
+
+  "contact": {
+    "title": "Contact",
+    "meta": {
+      "title": "Contact",
+      "description": "Online or at our church, you can reach out and talk to us. We would be delighted to connect with you."
+    }
+  },
+  "prayer": {
+    "title": "Request Prayer",
+    "meta": {
+      "title": "We can support you in prayer",
+      "description": "Together as brothers and sisters, we can support you in prayer according to the situation you are facing."
+    }
+  },
+  "schedule": {
+    "title": "Schedule",
+    "meta": {
+      "title": "Schedule",
+      "description": "Join us for our gatherings throughout the week and become part of our church community."
+    },
+    "services": {
+      "monday": {
+        "day": "Monday",
+        "titleShort": "Prayer Service",
+        "topic": "Knowing the Lord",
+        "cite": "John 1:12",
+        "title": "Monday Prayer",
+        "description": "Focused on presenting prayers before the Lord."
+      },
+      "wednesday": {
+        "day": "Wednesday",
+        "titleShort": "Pastoral Visit",
+        "title": "Wednesday Pastoral Visit",
+        "description": "Personal meeting and prayer with families."
+      },
+      "thursday": {
+        "day": "Thursday",
+        "titleShort": "Bible Study",
+        "topic": "Knowing the Lord",
+        "cite": "John 1:12",
+        "title": "Thursday Bible Study",
+        "description": "Learning and drawing closer to the Lord through His word."
+      },
+      "friday": {
+        "day": "Friday",
+        "titleShort": "Bible Study",
+        "topic": "Knowing the Lord",
+        "cite": "John 1:12",
+        "title": "Friday Bible Study",
+        "description": "Studying specific books of the Word."
+      },
+      "sunday": {
+        "day": "Sunday",
+        "titleShort": "General Service",
+        "topic": "Knowing the Lord",
+        "cite": "John 1:12",
+        "title": "Sunday General Service",
+        "description": "Sunday worship with all brethren."
+      }
+    }
+  },
+  "studies": {
+    "title": "Studies",
+    "meta": {
+      "title": "Bible Studies",
+      "description": "Dozens of topics to delve into the Word and discover the mysteries of the Kingdom of Heaven"
+    }
+  },
+  "quiz": {
+    "title": "Quiz",
+    "meta": {
+      "title": "Quiz",
+      "description": ""
+    }
+  },
+  "resources": {
+    "title": "Resources",
+    "meta": {
+      "title": "Resources",
+      "description": "Access downloadable biblical resources and materials to facilitate your learning."
+    },
+    "sections": {
+      "lecture": {
+        "description": "Tools for reading the bible anaywhere",
+        "title": "Reading",
+        "esword": "Read and study the Bible offline",
+        "brc": "Bible references by verse and chapter",
+        "bg": "Read and study the Bible online",
+        "openlp": "Presentations for sermons and teachings"
+      },
+      "versions": {
+        "title": "Bible Versions",
+        "description": "Spanish versions to add to E-Sword"
+      },
+      "comments": {
+        "title": "Commentaries",
+        "description": "Spanish commentaries to add to E-Sword"
+      },
+      "dictionaries": {
+        "title": "Dictionaries",
+        "description": "Spanish dictionaries to add to E-Sword"
+      }
+    }
+  },
+  "books": {
+    "title": "Studies per Book",
+    "meta": {
+      "title": "Studies per Book",
+      "description": "Facilitate your learning by reading book by book with its specific studies."
+    }
+  },
+  "devotionals": {
+    "title": "Devotionals",
+    "meta": {
+      "title": "Devotionals",
+      "description": "Read and meditate daily through a devotional that will bring you closer and closer to the Lord."
+    }
+  }
+}

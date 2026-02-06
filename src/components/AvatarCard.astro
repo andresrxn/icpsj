@@ -1,0 +1,59 @@
+---
+import Image from '@/components/Image.astro'
+import Text from '@/components/typography/Text.astro'
+import { IMAGES } from '@/consts'
+import { getI18N } from '@/i18n'
+import { getLangFromUrl } from '@/i18n/utils'
+import { cn } from '@/utils/theme'
+import type { HTMLAttributes } from 'astro/types'
+
+const lang = getLangFromUrl(Astro.url)
+const i18n = getI18N({ currentLocale: lang })
+
+interface Props extends HTMLAttributes<'article'> {
+  avatarImage?: string
+  avatarImageAlt?: string
+  name: string
+  label?: string
+  description?: string
+}
+
+const {
+  class: className,
+  avatarImage,
+  avatarImageAlt,
+  name,
+  label,
+  description,
+  ...props
+} = Astro.props
+---
+
+<article {...props} class={cn('flex flex-col items-center justify-center gap-14', className)}>
+  <div
+    data-aos='fade'
+    class='size-[150px] bg-surface rounded-full flex items-end justify-center border overflow-hidden lg:size-[165px]'>
+    <Image
+      src={avatarImage ?? IMAGES.FALLBACKS.AVATAR_CARD}
+      alt={avatarImageAlt ?? i18n.common.images.avatarCard}
+      class='size-[115px] lg:size-[130px] object-cover object-center'
+    />
+  </div>
+  <div class='grid gap-6'>
+    <Text center type='label' size='lg'>{name}</Text>
+    {
+      label && (
+        <Text center type='inline' class='text-primary-base'>
+          {label}
+        </Text>
+      )
+    }
+    {
+      description && (
+        <Text center priority='secondary' size='sm' characters='sm' class='w-[80%] line-clamp-2'>
+          {description}
+        </Text>
+      )
+    }
+  </div>
+</article>

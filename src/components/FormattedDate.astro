@@ -1,0 +1,15 @@
+---
+import { getLangFromUrl } from '@/i18n/utils'
+import { formatDate } from '@/utils/dates'
+import type { HTMLAttributes } from 'astro/types'
+
+interface Props extends HTMLAttributes<'time'> {
+  date: Date
+}
+const lang = getLangFromUrl(Astro.url)
+const { date, ...props } = Astro.props
+---
+
+<time datetime={date.toISOString()} {...props}>
+  {formatDate({ date, lang })}
+</time>

@@ -1,0 +1,44 @@
+---
+import StudieCard from '@/components/studies/StudieCard.astro'
+import { getLangFromUrl } from '@/i18n/utils'
+import { formatSlug } from '@/utils/articles'
+import { cn } from '@/utils/theme'
+
+import type { HTMLAttributes } from 'astro/types'
+import { getCollection } from 'astro:content'
+
+const lang = getLangFromUrl(Astro.url)
+
+const posts = (
+  await getCollection('studies', entry => {
+    return entry.slug.startsWith(lang)
+  })
+).sort((a, b) => b.data.createdAt.valueOf() - a.data.createdAt.valueOf())
+
+interface Props extends HTMLAttributes<'div'> {
+  amount: number
+}
+
+const { amount: limit, class: className, ...props } = Astro.props
+---
+
+<div class={cn('grid gap-32 md:grid-cols-2 md:gap-x-16 lg:grid-cols-3', className)} {...props}>
+  {
+    posts.slice(0, limit).map(post => {
+      const formatedSlug = formatSlug(post.slug)
+
+      return (
+        <StudieCard
+          book={post.data.book}
+          createdAt={post.data.createdAt}
+          updatedAt={post.data.updatedAt}
+          slug={formatedSlug}
+          title={post.data.title}
+          description={post.data.description}
+          imageSrc={post.data.imageSrc}
+          imageAlt={post.data.imageAlt}
+        />
+      )
+    })
+  }
+</div>

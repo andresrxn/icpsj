@@ -1,0 +1,425 @@
+---
+import Button from '@/components/Button.astro'
+import Link from '@/components/Link.astro'
+import Modal from '@/components/Modal.astro'
+import Heading from '@/components/typography/Heading.astro'
+import Text from '@/components/typography/Text.astro'
+import RootLayout from '@/layouts/RootLayout.astro'
+
+import LinkButton from '@/components/LinkButton.astro'
+import Facebook from '@/components/icons/Facebook.astro'
+import Twitter from '@/components/icons/Twitter.astro'
+import Telegram from '@/components/icons/Telegram.astro'
+import WhatsApp from '@/components/icons/WhatsApp.astro'
+import { ArrowDownToLine, ArrowRight, Mail } from 'lucide-astro'
+import Divider from '@/components/Divider.astro'
+import { YouTube } from '@astro-community/astro-embed-youtube'
+import ScheduleServices from '@/components/sections/ScheduleServices.astro'
+
+import StudiesContainer from '@/components/sections/StudiesContainer.astro'
+import Image from '@/components/Image.astro'
+import { SITE, IMAGES, COMPANY } from '@/consts'
+import { COOKIES_OPTIONS } from '@/utils/cookies'
+import { getI18N } from '@/i18n'
+import { getLangFromUrl, useTranslatedPath } from '@/i18n/utils'
+import IndexSchema from '@/components/schemas/IndexSchema.astro'
+import Trans from '@/components/Trans.astro'
+
+const lang = getLangFromUrl(Astro.url)
+const i18n = getI18N({ currentLocale: lang })
+const translatePath = useTranslatedPath(lang)
+
+const randomVerseCookie = Astro.cookies.get(`verse_${lang}`)
+let randomVerse
+if (randomVerseCookie === undefined) {
+  const { default: verses } = await import(`../../resources/verses/${lang}/verses.json`)
+  const randomNumber = Math.round(Math.random() * (verses.length - 1))
+  randomVerse = verses[randomNumber]
+  Astro.cookies.set(`verse_${lang}`, JSON.stringify({ ...randomVerse, lang }), {
+    ...COOKIES_OPTIONS,
+    maxAge: 1
+  })
+} else {
+  randomVerse = JSON.parse(randomVerseCookie.value)
+}
+const isShortVerse = randomVerse.verse.length <= 45
+const sharableVerse = `${randomVerse.verse} ${randomVerse.cite}`.trim().concat('%0D%0A %0D%0A')
+---
+
+<RootLayout title={SITE.TITLE} description={i18n.common.site.description}>
+  <main>
+    <section
+      class='hero bg-base-inverted-bold-fixed min-h-[550px] lg:min-h-[400px] 2xl:min-h-[520px] flex items-center justify-center'>
+      <div
+        class='container-grid gap-18 lg:gap-24 flex items-center justify-center flex-col py-52 xl:py-60 flex-initial'>
+        <Heading
+          id='verse'
+          center
+          size='sm'
+          tablet='base'
+          tv='lg'
+          class=`dark max-w-screen-md ${isShortVerse ? 'md:max-w-screen-lg' : 'xl:max-w-screen-lg'}`>
+          {randomVerse.verse}
+        </Heading>
+
+        <Text id='cite' center priority='secondary' laptop='lg' class='dark mb-18'>
+          {randomVerse.cite}
+        </Text>
+        <div class='flex flex-col lg:flex-row gap-18'>
+          <Button id='share-verse-btn'>
+            {i18n.common.actions.shareVerse}...
+          </Button>
+          <Link href={randomVerse.link} icon variant='base' target='_blank' class='dark'>
+            {i18n.common.actions.readFullChapter}
+          </Link>
+        </div>
+      </div>
+    </section>
+
+    <section class='py-40 lg:py-60'>
+      <div class='container-grid'>
+        <Heading level={2} size='sm' tablet='base' tv='lg' center>
+          {i18n.home.sections.services.title}
+        </Heading>
+        <Text center priority='secondary' class='lg:text-body-lg mt-6 mx-auto' characters='base'>
+          <Trans i18nKey={i18n.home.sections.services.description}>
+            No te pierdas ninguna prédica, visita nuestro <Link
+              href={COMPANY.SOCIAL.YOUTUBE}
+              class=''
+              target='_blank'>canal de YouTube</Link
+            > y aprende de todos los temas compartidos
+          </Trans>
+        </Text>
+
+        <div
+          data-aos='animate-up'
+          class='flex items-center justify-center w-full max-w-screen-lg my-36 mx-auto'>
+          <YouTube
+            id='kfU5L87pnjw'
+            poster='/images/studies/bible.jpg'
+            class='rounded-base w-full shadow-xl max-w-none'
+            playlabel={i18n.common.actions.playVideo}
+          />
+        </div>
+        <Heading level={3} size='sm' tablet='base' tv='lg' class='mt-44' center>
+          {i18n.home.sections.schedule.title}
+        </Heading>
+        <ScheduleServices class='mt-20' />
+        <Link class='mt-28' icon full href={translatePath('/horarios')}>
+          {i18n.common.actions.moreDetails}
+        </Link>
+      </div>
+    </section>
+
+    <section class='bg-surface py-52'>
+      <div class='container-grid'>
+        <Heading level={2} size='sm' tablet='base' tv='lg' center>
+          {i18n.home.sections.studies.title}
+        </Heading>
+        <Text
+          center
+          priority='secondary'
+          characters='sm'
+          class='md:text-body-base 2xl:text-body-lg mt-6 mx-auto'>
+          {i18n.home.sections.studies.description}
+        </Text>
+        <StudiesContainer class='mt-32' amount={6} />
+        <Link href={translatePath('/estudios')} icon full class='mt-36 lg:mt-44'>
+          {i18n.common.actions.seeAllStudies}
+        </Link>
+      </div>
+    </section>
+
+    <section class='bg-base py-52'>
+      <div class='container-grid'>
+        <Heading level={2} size='sm' tablet='base' tv='lg' center>
+          {i18n.home.sections.extra.title}
+        </Heading>
+        <Text center priority='secondary' characters='base' class='lg:text-body-lg mt-6 mx-auto'>
+          {i18n.home.sections.extra.description}
+        </Text>
+      </div>
+      <div class='container-grid grid gap-20 mt-32 lg:mt-44 md:grid-cols-2 lg:grid-cols-3 pb-52'>
+        <article
+          data-aos='animate-up'
+          class='bg-base-inverted-fixed rounded-xl h-[430px] 2xl:h-[550px] hover transition-transform ease-base duration-base'
+          style={`background-image: url(${IMAGES.GENERAL.READING_BIBLE}); background-size:cover; background-position: center;`}>
+          <Link
+            href={translatePath('/devocionales')}
+            wrapper
+            class='block h-full rounded-xl p-24 bg-gradient-to-b from-gradient-base-bold to-gradient-base -bold/0 space-y-6 hover:opacity-80 transition-opacity ease-base duration-base'>
+            <Heading class='dark' tv='lg' level={3}>
+              {i18n.common.links.devotionals}
+            </Heading>
+            <Text class='dark' priority='secondary' characters='sm'>
+              {i18n.devotionals.meta.description}
+            </Text>
+            <ArrowRight class='absolute top-20 right-20 dark text-icon-base' />
+          </Link>
+        </article>
+        <article
+          data-aos='animate-up'
+          data-aos-delay='50'
+          class='bg-base-inverted-fixed rounded-xl h-[430px] 2xl:h-[550px] hover transition-transform ease-base duration-base'
+          style={`background-image: url(${IMAGES.GENERAL.LIBRARY}); background-size:cover; background-position: center;`}>
+          <Link
+            href={translatePath('/recursos')}
+            wrapper
+            class='block h-full p-24 rounded-xl bg-gradient-to-b from-gradient-base-bold to-gradient-base -bold/0 space-y-6 hover:opacity-80 transition-opacity ease-base duration-base'>
+            <Heading class='dark' tv='lg' level={3}>
+              {i18n.common.links.resources}
+            </Heading>
+            <Text class='dark' priority='secondary' characters='sm'>
+              {i18n.resources.meta.description}
+            </Text>
+            <ArrowRight class='absolute top-20 right-20 dark text-icon-base' />
+          </Link>
+        </article>
+        <article
+          data-aos='animate-up'
+          data-aos-delay='100'
+          class='bg-base-inverted-fixed rounded-xl h-[430px] 2xl:h-[550px] hover transition-transform ease-base duration-base md:col-span-3 lg:col-span-1'
+          style={`background-image: url(${IMAGES.GENERAL.GROUP}); background-size:cover; background-position: center;`}>
+          <Link
+            href={translatePath('/horarios')}
+            wrapper
+            class='block h-full p-24 rounded-xl bg-gradient-to-b from-gradient-base-bold to-gradient-base -bold/0 space-y-6 hover:opacity-80 transition-opacity ease-base duration-base'>
+            <Heading class='dark' tv='lg' level={3}>{i18n.schedule.meta.title}</Heading>
+            <Text class='dark' priority='secondary' characters='sm'>
+              {i18n.schedule.meta.description}
+            </Text>
+            <ArrowRight class='absolute top-20 right-20 dark text-icon-base' />
+          </Link>
+        </article>
+      </div>
+    </section>
+
+    <IndexSchema slot='schema' />
+  </main>
+  <canvas
+    id='verse-canvas'
+    aria-label='hidden'
+    width='1080'
+    height='1080'
+    class='hidden absolute pointer-events-none select-none'></canvas>
+
+  <Modal
+    id='share-verse-dialog'
+    title={i18n.home.sections.verseModal.title}
+    description={i18n.home.sections.verseModal.description}>
+    <div slot='content' class='flex items-center justify-center flex-col gap-12'>
+      <Image
+        src=''
+        id='verse-image'
+        alt={i18n.common.images.verseModal}
+        class='size-[250px] lg:size-[300px] aspect-square rounded-base mb-12'
+      />
+
+      <Button class='flex items-center gap-8' id='share-verse-download-btn'
+        ><ArrowDownToLine class='size-icon-responsive' />
+        {i18n.common.actions.download}</Button
+      >
+      <Divider class='my-10' />
+      <div class='flex items-center gap-8'>
+        <LinkButton
+          href={`https://www.facebook.com/sharer/sharer.php?u=${SITE}`}
+          target='_blank'
+          size='icon-lg'
+          variant='outline'
+          title={`${i18n.common.actions.shareOn} Facebook`}>
+          <Facebook class='size-icon-base' />
+        </LinkButton>
+        <LinkButton
+          href={`https://twitter.com/intent/tweet?text=${sharableVerse}&url=${SITE}`}
+          target='_blank'
+          size='icon-lg'
+          variant='outline'
+          title={`${i18n.common.actions.shareOn} Twitter`}>
+          <Twitter class='size-icon-base' />
+        </LinkButton>
+        <LinkButton
+          href={`https://t.me/share/url?url=${SITE}&text=${sharableVerse}`}
+          target='_blank'
+          size='icon-lg'
+          variant='outline'
+          title={`${i18n.common.actions.shareOn} Telegram`}>
+          <Telegram class='size-icon-base' />
+        </LinkButton>
+        <LinkButton
+          href={`https://api.whatsapp.com/send?text=${sharableVerse}%20+${SITE}`}
+          target='_blank'
+          size='icon-lg'
+          variant='outline'
+          title={`${i18n.common.actions.shareOn} WhatsApp`}>
+          <WhatsApp class='size-icon-base' />
+        </LinkButton>
+        <LinkButton
+          href={`mailto:?subject=${randomVerse.cite}&body=${sharableVerse}%20${SITE}`}
+          target='_blank'
+          size='icon-lg'
+          variant='outline'
+          title={`${i18n.common.actions.shareOn} Email`}>
+          <Mail class='size-icon-base text-icon-base' />
+        </LinkButton>
+      </div>
+    </div>
+    <div slot='footer' class='flex justify-end gap-8'>
+      <Button variant='outline' size='sm' data-close-modal>{i18n.common.actions.cancel}</Button>
+    </div>
+  </Modal>
+</RootLayout>
+
+<style>
+  .hero {
+    background-image: url('/images/gain-background-vertical.webp');
+    background-size: cover;
+    background-position: center;
+  }
+
+  @media screen and (width > 760px) {
+    .hero {
+      background-image: url('/images/gain-background-horizontal.webp');
+    }
+  }
+</style>
+
+<script>
+  import { IMAGES, SITE } from '@/consts'
+
+  const verse = document.getElementById('verse')?.textContent as string
+  const cite = document.getElementById('cite')?.textContent as string
+
+  const previewImg = document.getElementById('verse-image') as HTMLImageElement
+
+  const canvas = document.getElementById('verse-canvas') as HTMLCanvasElement
+  const ctx = canvas?.getContext('2d')
+
+  const dialogShareVerse = document.getElementById('share-verse-dialog') as HTMLDialogElement
+
+  const btnShareVerse = document.getElementById('share-verse-btn') as HTMLButtonElement
+  const btnDownloadVerse = document.getElementById('share-verse-download-btn') as HTMLButtonElement
+
+  function generatePreviewImageSource(data: HTMLCanvasElement) {
+    return data.toDataURL('image/jpeg')
+  }
+
+  function generateImage(text: string) {
+    if (!canvas || !ctx) return
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height)
+
+    const VERSE_TEMPLATE_IMAGE = IMAGES.TEMPLATES.VERSE
+    const VERSE_FONT = 'Merriweather Black'
+    const CITE_FONT = 'Open Sans Variable'
+    const VERSE_COLOR = 'white'
+    const CITE_COLOR = 'rgb(164 170 186)'
+    const VERSE_MAX_BIG_LINES = 4
+    const CITE_MARGIN_TOP = 20
+    const VERSE_LINE_HEIGHT = 1.15
+    const CANVAS_MARGIN_X = 100
+    const CANVAS_MIN_MARGIN_Y = 130
+    const CANVAS_MAX_MARGIN_Y = 170
+    const TEXT_ALINGMENT = 'center'
+    let VERSE_FONT_SIZE = 92
+    const MIN_FONT_SIZE = 72
+    const CITE_FONT_SIZE = 45
+    const VERSE_MAX_CHARACTERS = 90
+
+    const background = new Image()
+    background.src = VERSE_TEMPLATE_IMAGE
+
+    background.onload = function () {
+      ctx.drawImage(background, 0, 0, 1080, 1080)
+
+      const VERSE_MIN_FONT_SIZE =
+        text.length > VERSE_MAX_CHARACTERS ? MIN_FONT_SIZE : VERSE_FONT_SIZE
+      const VERSE_MAX_WIDTH = canvas.width - CANVAS_MARGIN_X
+
+      ctx.font = `${VERSE_FONT_SIZE}px  ${VERSE_FONT}`
+
+      while (
+        VERSE_FONT_SIZE > VERSE_MIN_FONT_SIZE &&
+        ctx.measureText(text).width > VERSE_MAX_WIDTH
+      ) {
+        VERSE_FONT_SIZE--
+        ctx.font = `${VERSE_FONT_SIZE}px ${VERSE_FONT}`
+      }
+
+      function wrapText(
+        ctx: CanvasRenderingContext2D,
+        text: string,
+        aditionalText: string,
+        x: number,
+        y: number,
+        maxWidth: number,
+        lineHeight: number
+      ) {
+        const words = text.split(' ')
+        let line = ''
+        const lines = []
+
+        for (let n = 0; n < words.length; n++) {
+          let testLine = line + words[n] + ' '
+          let metrics = ctx.measureText(testLine)
+          let testWidth = metrics.width
+          if (testWidth > maxWidth && n > 0) {
+            lines.push(line)
+            line = words[n] + ' '
+          } else {
+            line = testLine
+          }
+        }
+        lines.push(line)
+
+        let startY = y
+
+        if (lines.length <= VERSE_MAX_BIG_LINES) {
+          startY = y + CANVAS_MAX_MARGIN_Y
+        }
+
+        for (let i = 0; i < lines.length; i++) {
+          const lineY = startY + i * lineHeight
+          if (lineY + lineHeight <= canvas!.height - 10) {
+            ctx.fillText(lines[i], x, lineY)
+          }
+        }
+
+        ctx.font = `${CITE_FONT_SIZE}px ${CITE_FONT}`
+        ctx.fillStyle = CITE_COLOR
+        const footerY = startY + lines.length * lineHeight + CITE_MARGIN_TOP
+        if (footerY + lineHeight <= canvas!.height - 10) {
+          ctx.fillText(aditionalText, x, footerY)
+        }
+      }
+
+      ctx.fillStyle = VERSE_COLOR
+      ctx.textAlign = TEXT_ALINGMENT
+      ctx.textBaseline = 'top'
+
+      const lineHeight = VERSE_FONT_SIZE * VERSE_LINE_HEIGHT
+      const x = canvas.width / 2
+
+      const y = CANVAS_MIN_MARGIN_Y
+      wrapText(ctx, text, cite, x, y, VERSE_MAX_WIDTH, lineHeight)
+    }
+  }
+
+  function downloadImage() {
+    const canvas = document.getElementById('verse-canvas') as HTMLCanvasElement
+    const link = document.createElement('a')
+    link.href = canvas.toDataURL('image/jpeg')
+    link.download = `${cite.trim()} - ${SITE.DOMAIN}.jpg`
+    link.click()
+  }
+
+  document.addEventListener('DOMContentLoaded', () => generateImage(verse))
+
+  btnShareVerse?.addEventListener('click', () => {
+    if (dialogShareVerse !== null) {
+      dialogShareVerse.showModal()
+      previewImg!.src = generatePreviewImageSource(canvas)
+    }
+  })
+
+  btnDownloadVerse?.addEventListener('click', () => downloadImage())
+</script>

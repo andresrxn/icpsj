@@ -1,0 +1,64 @@
+---
+import FormattedDate from '@/components/FormattedDate.astro'
+import Image from '@/components/Image.astro'
+import Link from '@/components/Link.astro'
+import Heading from '@/components/typography/Heading.astro'
+import Text from '@/components/typography/Text.astro'
+import { getLangFromUrl, useTranslatedPath } from '@/i18n/utils'
+import { cn } from '@/utils/theme'
+import type { HTMLAttributes } from 'astro/types'
+
+const lang = getLangFromUrl(Astro.url)
+const translatePath = useTranslatedPath(lang)
+
+interface Props extends HTMLAttributes<'article'> {
+  imageSrc: string
+  imageAlt: string
+  title: string
+  description: string
+  book: string
+  slug: string
+  createdAt: Date
+  updatedAt?: Date
+}
+
+const {
+  title,
+  description,
+  imageSrc,
+  imageAlt,
+  createdAt,
+  updatedAt,
+  slug,
+  book,
+  class: className,
+  ...props
+} = Astro.props
+---
+
+<article
+  {...props}
+  class={cn('relative max-w-[350px] md:max-w-[400px] group lg:max-w-full', className)}>
+  <Link wrapper href={`${translatePath('/estudios')}/${slug}`} class='flex-col gap-8'>
+    <div class='rounded-base overflow-hidden bg-base-bold shadow-xl relative'>
+      <Image
+        src={`/images/studies/${imageSrc}`}
+        alt={imageAlt}
+        data-aos='fade'
+        class='h-[200px] 2xl:h-[260px] rounded-base w-full object-cover object-center group-hover:!scale-104 !transition-all ease-base duration-base'
+      />
+    </div>
+    <div
+      class='grid gap-8 mt-6 group-hover:decoration group-hover:decoration-primary-subtle group-hover:underline'>
+      <div class='flex items-center gap-12 my-4'>
+        <div class='bg-primary-subtler py-1 outline outline-accent-orange px-8 rounded-sm'>
+          <Text size='xs' class='text-primary-base'>{book}</Text>
+        </div>
+        <FormattedDate date={createdAt} class='text-base-subtle text-body-sm' />
+      </div>
+
+      <Heading level={3} size='sm' class='line-clamp-2'>{title}</Heading>
+      <Text priority='secondary' class='line-clamp-2' size='sm'>{description}</Text>
+    </div>
+  </Link>
+</article>

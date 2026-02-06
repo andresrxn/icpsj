@@ -1,0 +1,35 @@
+---
+import Link, { type Props as LinkProps } from '@/components/Link.astro'
+import { defaultLang } from '@/i18n/ui'
+import { getLangFromUrl } from '@/i18n/utils'
+import { cn } from '@/utils/theme'
+const lang = getLangFromUrl(Astro.url)
+
+interface Props extends LinkProps {
+  target?: '_self' | '_blank' | '_parent' | '_top'
+  icon?: boolean
+}
+
+const { href, icon = false, class: className, target = '_self', ...props } = Astro.props
+
+const { pathname } = Astro.url
+const subpath = pathname.match(/[^\/]+/g)
+const root = subpath ? (lang !== defaultLang ? subpath[1] : subpath[0]) : ''
+
+const isActive =
+  href === pathname ||
+  (lang !== defaultLang ? href === '/' + lang + '/' + root : href === '/' + root)
+---
+
+<Link
+  icon={icon}
+  href={href}
+  target={target}
+  selectable
+  selected={isActive}
+  variant='base'
+  wrapper
+  class={cn('text-body-sm', className)}
+  {...props}>
+  <slot />
+</Link>

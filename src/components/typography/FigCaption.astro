@@ -1,0 +1,17 @@
+---
+import Text from '@/components/typography/Text.astro'
+import { cn } from '@/utils/theme'
+import type { HTMLAttributes } from 'astro/types'
+import { Info } from 'lucide-astro'
+
+interface Props extends HTMLAttributes<'figcaption'> {}
+const { class: className, ...props } = Astro.props
+---
+
+<figcaption class={cn('flex items-start gap-8 text-body-base', className)} {...props}>
+  <Info class='size-icon-responsive text-icon-base-subtle mt-2' /><Text
+    size='sm'
+    tv='base'
+    priority='secondary'><slot /></Text
+  >
+</figcaption>

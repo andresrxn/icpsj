@@ -1,0 +1,20 @@
+---
+import { SITE } from '@/consts'
+import { LANGUAGES } from '@/i18n/ui'
+import { getLangFromUrl, getRouteFromUrl, useTranslatedPath } from '@/i18n/utils'
+
+const lang = getLangFromUrl(Astro.url)
+const translatePath = useTranslatedPath(lang)
+
+const route = getRouteFromUrl(Astro.url)
+---
+
+{
+  Array.from(Object.values(LANGUAGES)).map(lang => (
+    <link
+      rel='alternate'
+      hreflang={lang.name}
+      href={SITE.URL + translatePath(`${route ? route : ''}`, lang.name)}
+    />
+  ))
+}

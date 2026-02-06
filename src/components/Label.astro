@@ -1,0 +1,12 @@
+---
+import { cn } from '@/utils/theme'
+import type { HTMLAttributes } from 'astro/types'
+
+export interface Props extends HTMLAttributes<'label'> {}
+
+const { class: className, ...props } = Astro.props
+---
+
+<label class={cn('font-medium text-body-sm grid gap-4 relative text-base', className)} {...props}
+  ><slot /></label
+>

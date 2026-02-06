@@ -1,0 +1,237 @@
+---
+import Label from '@/components/Label.astro'
+import ScheduleBanner from '@/components/schedule/ScheduleBanner.astro'
+import Heading from '@/components/typography/Heading.astro'
+import Text from '@/components/typography/Text.astro'
+import { IMAGES } from '@/consts'
+import RootLayout from '@/layouts/RootLayout.astro'
+import { generateSiteTitle } from '@/utils/meta'
+import { getI18N } from '@/i18n'
+import { getLangFromUrl } from '@/i18n/utils'
+
+const lang = getLangFromUrl(Astro.url)
+const i18n = getI18N({ currentLocale: lang })
+---
+
+<RootLayout
+  title={generateSiteTitle(i18n.schedule.meta.title)}
+  description={i18n.schedule.meta.description}>
+  <main>
+    <section class='container-grid pt-36'>
+      <div class='space-y-6'>
+        <Heading size='sm' tablet='base' tv='lg'>{i18n.schedule.title}</Heading>
+        <Text tv='lg' characters='sm'>
+          {i18n.schedule.meta.description}
+        </Text>
+      </div>
+
+      <div class='overflow-hidden mt-24'>
+        <div class='flex items-end justify-start divide-x overflow-x-auto pb-6 scrollbar-hidden'>
+          <div class='shrink-0'>
+            <input
+              data-day-selector={i18n.schedule.services.sunday.day}
+              checked
+              type='radio'
+              name='schedule'
+              id={i18n.schedule.services.sunday.day}
+              class='hidden peer'
+            />
+            <Label
+              for={i18n.schedule.services.sunday.day}
+              class='py-8 px-24 border-b border-transparent text-selectable cursor-pointer hover:bg-selectable-hover active:scale-98 peer-checked:text-selected-primary peer-checked:border-selected lg:text-body-base'
+              role='button'>{i18n.schedule.services.sunday.day}</Label
+            >
+          </div>
+
+          <div class='shrink-0'>
+            <input
+              data-day-selector={i18n.schedule.services.monday.day}
+              type='radio'
+              name='schedule'
+              id={i18n.schedule.services.monday.day}
+              class='hidden peer'
+            />
+            <Label
+              for={i18n.schedule.services.monday.day}
+              class='py-8 px-24 border-b border-transparent text-selectable cursor-pointer hover:bg-selectable-hover active:scale-98 peer-checked:text-selected-primary peer-checked:border-selected lg:text-body-base'
+              role='button'>{i18n.schedule.services.monday.day}</Label
+            >
+          </div>
+          <div class='shrink-0'>
+            <input
+              data-day-selector={i18n.schedule.services.wednesday.day}
+              type='radio'
+              name='schedule'
+              id={i18n.schedule.services.wednesday.day}
+              class='hidden peer'
+            />
+            <Label
+              for={i18n.schedule.services.wednesday.day}
+              class='py-8 px-24 border-b border-transparent text-selectable cursor-pointer hover:bg-selectable-hover active:scale-98 peer-checked:text-selected-primary peer-checked:border-selected lg:text-body-base'
+              role='button'>{i18n.schedule.services.wednesday.day}</Label
+            >
+          </div>
+          <div class='shrink-0'>
+            <input
+              data-day-selector={i18n.schedule.services.thursday.day}
+              type='radio'
+              name='schedule'
+              id={i18n.schedule.services.thursday.day}
+              class='hidden peer'
+            />
+            <Label
+              for={i18n.schedule.services.thursday.day}
+              class='py-8 px-24 border-b border-transparent text-selectable cursor-pointer hover:bg-selectable-hover active:scale-98 peer-checked:text-selected-primary peer-checked:border-selected lg:text-body-base'
+              role='button'>{i18n.schedule.services.thursday.day}</Label
+            >
+          </div>
+          <div class='shrink-0'>
+            <input
+              data-day-selector={i18n.schedule.services.friday.day}
+              type='radio'
+              name='schedule'
+              id={i18n.schedule.services.friday.day}
+              class='hidden peer'
+            />
+            <Label
+              for={i18n.schedule.services.friday.day}
+              class='py-8 px-24 border-b border-transparent text-selectable cursor-pointer hover:bg-selectable-hover active:scale-98 peer-checked:text-selected-primary peer-checked:border-selected lg:text-body-base'
+              role='button'>{i18n.schedule.services.friday.day}</Label
+            >
+          </div>
+        </div>
+        <div></div>
+      </div>
+    </section>
+    <section class='overflow-hidden'>
+      <div
+        class='flex flex-col gap-20 mt-32 md:flex-wrap md:flex-row md:max-w-screen-lg 2xl:max-w-screen-xl mx-auto md:justify-between rounded-lg'>
+        <ScheduleBanner
+          class='hidden [&.active]:flex [&.active]:animate-fade-up animate-duration-base animate-ease-base active'
+          data-day={i18n.schedule.services.sunday.day}
+          title={i18n.schedule.services.sunday.titleShort}
+          description={i18n.schedule.services.sunday.description}
+          day={i18n.schedule.services.sunday.day}
+          topic={i18n.schedule.services.monday.topic}
+          cite={i18n.schedule.services.monday.cite}
+          startsAt={new Date().setHours(11, 0, 0, 0)}
+          endsAt={new Date().setHours(13, 0, 0, 0)}
+          imageSrc={IMAGES.GENERAL.AUDITORIUM_FULL}
+          imageAlt=''
+          pastors={[
+            {
+              name: 'José Pérez'
+            }
+          ]}
+        />
+        <ScheduleBanner
+          class='hidden [&.active]:flex [&.active]:animate-fade-up animate-duration-base animate-ease-base'
+          data-day={i18n.schedule.services.monday.day}
+          title={i18n.schedule.services.monday.titleShort}
+          description={i18n.schedule.services.monday.description}
+          day={i18n.schedule.services.monday.day}
+          topic={i18n.schedule.services.monday.topic}
+          cite={i18n.schedule.services.monday.cite}
+          startsAt={new Date().setHours(20, 0, 0, 0)}
+          endsAt={new Date().setHours(21, 0, 0, 0)}
+          imageSrc={IMAGES.GENERAL.HANDS_ADORATION}
+          imageAlt=''
+          pastors={[
+            {
+              name: 'José Pérez'
+            },
+            {
+              name: 'Alejandro Carrillo'
+            },
+            {
+              name: 'Axel Ruiz'
+            }
+          ]}
+        />
+        <ScheduleBanner
+          class='hidden [&.active]:flex [&.active]:animate-fade-up animate-duration-base animate-ease-base'
+          data-day={i18n.schedule.services.wednesday.day}
+          title={i18n.schedule.services.wednesday.titleShort}
+          description={i18n.schedule.services.wednesday.description}
+          day={i18n.schedule.services.wednesday.day}
+          startsAt={new Date().setHours(18, 0, 0, 0)}
+          endsAt={new Date().setHours(20, 0, 0, 0)}
+          imageSrc={IMAGES.GENERAL.TEACHING}
+          imageAlt=''
+          pastors={[
+            {
+              name: 'José Pérez'
+            }
+          ]}
+        />
+        <ScheduleBanner
+          class='hidden [&.active]:flex [&.active]:animate-fade-up animate-duration-base animate-ease-base'
+          data-day={i18n.schedule.services.thursday.day}
+          title={i18n.schedule.services.thursday.titleShort}
+          description={i18n.schedule.services.thursday.description}
+          day={i18n.schedule.services.thursday.day}
+          topic={i18n.schedule.services.thursday.topic}
+          cite={i18n.schedule.services.thursday.cite}
+          startsAt={new Date().setHours(20, 0, 0, 0)}
+          endsAt={new Date().setHours(21, 0, 0, 0)}
+          imageSrc={IMAGES.GENERAL.PREACH}
+          imageAlt=''
+          pastors={[
+            {
+              name: 'José Pérez'
+            },
+            {
+              name: 'Alejandro Carrillo'
+            },
+            {
+              name: 'Axel Ruiz'
+            }
+          ]}
+        />
+        <ScheduleBanner
+          class='hidden [&.active]:flex [&.active]:animate-fade-up animate-duration-base animate-ease-base'
+          data-day={i18n.schedule.services.friday.day}
+          title={i18n.schedule.services.friday.titleShort}
+          description={i18n.schedule.services.friday.description}
+          day={i18n.schedule.services.friday.day}
+          topic={i18n.schedule.services.friday.topic}
+          cite={i18n.schedule.services.friday.cite}
+          startsAt={new Date().setHours(20, 0, 0, 0)}
+          endsAt={new Date().setHours(21, 0, 0, 0)}
+          imageSrc={IMAGES.GENERAL.PREACH_2}
+          imageAlt=''
+          pastors={[
+            {
+              name: 'José Pérez'
+            },
+            {
+              name: 'Alejandro Carrillo'
+            },
+            {
+              name: 'Axel Ruiz'
+            }
+          ]}
+        />
+      </div>
+    </section>
+  </main>
+</RootLayout>
+
+<script>
+  const dayBanners = document.querySelectorAll('[data-day]') as NodeListOf<HTMLInputElement>
+  const daySelectors = document.querySelectorAll(
+    '[data-day-selector]'
+  ) as NodeListOf<HTMLDivElement>
+
+  daySelectors.forEach(selector => {
+    selector.addEventListener('change', () => {
+      const day = selector.dataset.daySelector as string
+      const dayBanner = document.querySelector(`[data-day=${day}]`) as HTMLDivElement
+
+      if (dayBanner) {
+        dayBanners.forEach(day => day.classList.remove('active'))
+        dayBanner.classList.toggle('active')
+      }
+    })
+  })
+</script>

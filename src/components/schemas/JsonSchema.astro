@@ -1,0 +1,9 @@
+---
+interface Props {
+  schema: Record<any, any>
+}
+
+const { schema } = Astro.props
+---
+
+<script type='application/ld+json' is:inline set:html={JSON.stringify(schema, null, 2)} />

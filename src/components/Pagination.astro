@@ -1,0 +1,53 @@
+---
+import LinkButton from '@/components/LinkButton.astro'
+import { getI18N } from '@/i18n'
+import { getLangFromUrl } from '@/i18n/utils'
+import { cn } from '@/utils/theme'
+import type { HTMLAttributes } from 'astro/types'
+
+const lang = getLangFromUrl(Astro.url)
+const i18n = getI18N({ currentLocale: lang })
+
+interface Props extends HTMLAttributes<'div'> {
+  currentPage: number
+  totalPages: number
+  isFirstPage: boolean
+  isLastPage: boolean
+  notFirst?: boolean
+  url: string
+  variant?: 'outline' | 'secondary'
+}
+
+const {
+  class: className,
+  url,
+  currentPage,
+  totalPages,
+  isFirstPage,
+  isLastPage,
+  notFirst = false,
+  variant = 'secondary',
+  ...props
+} = Astro.props
+---
+
+<div class={cn('w-full flex items-center justify-end gap-12', className)} {...props}>
+  {
+    totalPages >= 2 && (
+      <>
+        <LinkButton
+          variant={variant}
+          href={`${url}${notFirst ? '&' : '?'}p=${currentPage - 1}`}
+          class={`${isFirstPage && 'disabled'}`}>
+          {i18n.common.labels.prev}
+        </LinkButton>
+        <LinkButton
+          variant={variant}
+          href={`${url}${notFirst ? '&' : '?'}p=${currentPage + 1}`}
+          class={`${isLastPage && 'disabled'}`}>
+          {i18n.common.labels.next}
+        </LinkButton>
+      </>
+    )
+  }
+</div>

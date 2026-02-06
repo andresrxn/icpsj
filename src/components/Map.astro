@@ -1,0 +1,55 @@
+---
+import { cn } from '@/utils/theme'
+import type { HTMLAttributes } from 'astro/types'
+
+interface Props extends HTMLAttributes<'div'> {
+  lat: number
+  lng: number
+  zoom: number
+  popup?: boolean
+  popupContent?: string
+}
+
+const { lat, lng, zoom, popup = false, popupContent = '', class: className, ...props } = Astro.props
+---
+
+<div
+  class={cn('w-full rounded-base shadow-lg h-[350px] border', className)}
+  id='map'
+  {...props}
+  data-lat={lat}
+  data-lng={lng}
+  data-zoom={zoom}
+  data-popup={popup}
+  data-popup-content={popup && popupContent}>
+</div>
+
+<script>
+  import L from 'leaflet'
+  import 'leaflet/dist/leaflet.css'
+
+  const map = document.getElementById('map') as HTMLDivElement
+  const lat = parseFloat(map.dataset.lat!)
+  const lng = parseFloat(map.dataset.lng!)
+  const zoom = parseInt(map.dataset.zoom!)
+
+  const leaflet = L.map('map', {
+    zoom,
+    preferCanvas: true
+  }).panTo(new L.LatLng(lat, lng))
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution:
+      '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+  }).addTo(leaflet)
+  L.marker([lat, lng]).addTo(leaflet)
+
+  if (map.hasAttribute('data-popup')) {
+    L.marker([lat, lng])
+      .addTo(leaflet)
+      .bindPopup(
+        `<a href="https://www.google.es/maps/@${lat},${lng},${zoom}z" target="_blank">${map.dataset.popupContent}</a>`
+      )
+      .openPopup()
+  }
+</script>

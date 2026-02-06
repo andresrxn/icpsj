@@ -1,0 +1,9 @@
+---
+import { cn } from '@/utils/theme'
+import type { HTMLAttributes } from 'astro/types'
+
+interface Props extends HTMLAttributes<'mark'> {}
+const { class: className, ...props } = Astro.props
+---
+
+<mark class={cn('bg-details text-details text-body-inherit', className)} {...props}><slot /></mark>

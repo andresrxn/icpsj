@@ -1,0 +1,195 @@
+---
+import Button from '@/components/Button.astro'
+import Divider from '@/components/Divider.astro'
+import FormattedDate from '@/components/FormattedDate.astro'
+import Image from '@/components/Image.astro'
+import InputSearch from '@/components/InputSearch.astro'
+import Label from '@/components/Label.astro'
+import Link from '@/components/Link.astro'
+import Pagination from '@/components/Pagination.astro'
+import BookCard from '@/components/studies/BookCard.astro'
+import StudieCard from '@/components/studies/StudieCard.astro'
+import Heading from '@/components/typography/Heading.astro'
+import Text from '@/components/typography/Text.astro'
+import RootLayout from '@/layouts/RootLayout.astro'
+import { formatSlug } from '@/utils/articles'
+import { generateSiteTitle } from '@/utils/meta'
+import { getCollection } from 'astro:content'
+import { getI18N } from '@/i18n'
+import { getLangFromUrl, useTranslatedPath } from '@/i18n/utils'
+
+const lang = getLangFromUrl(Astro.url)
+const i18n = getI18N({ currentLocale: lang })
+const translatePath = useTranslatedPath(lang)
+
+const posts = (
+  await getCollection('studies', entry => {
+    return entry.slug.startsWith(lang)
+  })
+).sort((a, b) => b.data.createdAt.valueOf() - a.data.createdAt.valueOf())
+const MAX_BOOKS_TO_SHOW = 6
+const MAX_POSTS_TO_SHOW = 6
+const currentPage = Astro.url.searchParams.get('p') !== null ? +Astro.url.searchParams.get('p')! : 1
+const totalPages = Math.ceil(posts.length / MAX_POSTS_TO_SHOW)
+const postPerPage = posts.slice(
+  (currentPage - 1) * (currentPage === 1 ? MAX_POSTS_TO_SHOW + 1 : MAX_POSTS_TO_SHOW),
+  currentPage * (currentPage === 1 ? MAX_POSTS_TO_SHOW + 1 : MAX_POSTS_TO_SHOW)
+)
+const books = Array.from(new Set(posts.map(entry => entry.data.book))).slice(0, MAX_BOOKS_TO_SHOW)
+const formatedFirstSlug = formatSlug(posts[0].slug)
+---
+
+<RootLayout
+  title={generateSiteTitle(i18n.studies.meta.title)}
+  description={i18n.studies.meta.description}>
+  <main>
+    <section class='container-grid py-36 space-y-6'>
+      <Heading center size='sm' tablet='base' tv='lg'>{i18n.studies.meta.title}</Heading>
+      <Text center tv='lg' characters='sm'>
+        {i18n.studies.meta.description}
+      </Text>
+      <div class='container-grid md:max-w-screen-sm mb-36 pt-18'>
+        <form action={`${translatePath('/estudios/buscar')}`} class='relative' id='form'>
+          <Label class='sr-only' for='q'>{i18n.common.form.search.label}</Label>
+          <InputSearch
+            placeholder={i18n.common.form.search.placeholder}
+            id='q'
+            name='q'
+            value=''
+            class='pr-[110px] search-none'
+          />
+          <Button
+            id='search-btn'
+            class='[&.active]:flex hidden absolute top-[50%] -translate-y-[50%] right-2'
+            size='sm'>{i18n.common.actions.search}</Button
+          >
+        </form>
+      </div>
+      <div class='overflow-hidden'>
+        <div
+          class='flex gap-12 2xl:gap-20 items-center md:justify-center pt-18 overflow-y-auto scrollbar-hidden p-4'>
+          {books.map(book => <BookCard book={book} />)}
+
+          <Link
+            href={translatePath('/estudios/libros')}
+            class='size-82 shrink-0 bg-surface rounded-full text-body-sm items-center justify-center p-4 text-center'
+            >{i18n.common.actions.seeAllBooks}</Link
+          >
+        </div>
+      </div>
+    </section>
+    <section class='pb-82 md:pt-44 bg-surface'>
+      <div class='grid gap-28 2xl:gap-36'>
+        <article
+          class='group w-full mx-auto md:max-w-screen-md md:w-[90%] lg:max-w-screen-lg xl:max-w-screen-lg 2xl:max-w-screen-xl lg:bg-base rounded-base lg:border lg:flex animate-fade-up animate-duration-base animate-ease-base'>
+          <Link
+            wrapper
+            href={`${translatePath('/estudios')}/${formatedFirstSlug}`}
+            class='flex-col w-full lg:flex-row'>
+            <div
+              class='relative overflow-hidden bg-base-bold md:rounded-base lg:w-[50%] 2xl:w-[45%] h-full'>
+              <Image
+                src={`/images/studies/${posts[0].data.imageSrc}`}
+                alt={posts[0].data.imageAlt}
+                class='h-[350px] md:h-[450px] lg:h-[300px] xl:h-[350px] md:rounded-base w-full object-cover object-center group-hover:scale-104 transition-transform ease-base duration-base'
+              />
+            </div>
+
+            <div
+              class='flex flex-col gap-6 lg:gap-12 lg:w-[55%] group-hover:decoration group-hover:decoration-primary-subtle group-hover:underline container-grid py-28 lg:p-32 2xl:p-44'>
+              <div class='flex items-center gap-12 my-4'>
+                <div class='bg-primary-subtler py-1 outline outline-accent-orange px-8 rounded-sm'>
+                  <Text size='xs' class='text-primary-base'>{posts[0].data.book}</Text>
+                </div>
+                <FormattedDate
+                  date={posts[0].data.createdAt}
+                  class='text-base-subtle text-body-sm'
+                />
+              </div>
+              <Heading level={2} size='sm' desktop='base' tv='lg'>{posts[0].data.title}</Heading>
+              <Text
+                priority='secondary'
+                class='line-clamp-2'
+                characters='sm'
+                size='sm'
+                tablet='base'
+                desktop='lg'>{posts[0].data.description}</Text
+              >
+            </div>
+          </Link>
+        </article>
+        <Divider class='container-grid w-[90%]' />
+        <div
+          class='container-grid grid gap-32 md:grid-cols-2 md:gap-x-16 lg:grid-cols-3'
+          id='posts'>
+          {
+            postPerPage.slice(currentPage === 1 ? 1 : 0).map(post => {
+              const formatedSlug = formatSlug(post.slug)
+
+              return (
+                <StudieCard
+                  book={post.data.book}
+                  createdAt={post.data.createdAt}
+                  updatedAt={post.data.updatedAt}
+                  slug={formatedSlug}
+                  title={post.data.title}
+                  description={post.data.description}
+                  imageSrc={post.data.imageSrc}
+                  imageAlt={post.data.imageAlt}
+                />
+              )
+            })
+          }
+        </div>
+        <Pagination
+          currentPage={currentPage}
+          isFirstPage={currentPage === 1}
+          isLastPage={currentPage === totalPages}
+          totalPages={totalPages}
+          url={translatePath('/estudios')}
+          class='container-grid mt-20'
+        />
+      </div>
+    </section>
+  </main>
+</RootLayout>
+
+<style>
+  html {
+    scroll-behavior: auto;
+  }
+</style>
+<script>
+  const params = new URLSearchParams(window.location.search)
+  const hasParamP = params.has('p')
+  const searchInput = document.getElementById('q') as HTMLInputElement
+  const searchBtn = document.getElementById('search-btn') as HTMLButtonElement
+  const form = document.getElementById('form') as HTMLFormElement
+
+  window.addEventListener('load', () => {
+    searchInput.value = ''
+  })
+
+  form.addEventListener('submit', e => {
+    if (searchInput.value.length < 2) e.preventDefault()
+  })
+
+  searchInput.addEventListener('input', e => {
+    const input = e.target as HTMLInputElement
+
+    if (input.value.length >= 2) {
+      searchBtn.classList.add('active')
+      searchInput.classList.remove('search-none')
+    } else {
+      searchBtn.classList.remove('active')
+      searchInput.classList.add('search-none')
+    }
+  })
+
+  if (hasParamP) {
+    const postsContainer = document.getElementById('posts')
+    if (postsContainer) {
+      postsContainer.scrollIntoView({ behavior: 'auto', block: 'start' })
+    }
+  }
+</script>

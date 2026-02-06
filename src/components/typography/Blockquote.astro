@@ -1,0 +1,20 @@
+---
+import Text from '@/components/typography/Text.astro'
+import { cn } from '@/utils/theme'
+import type { HTMLAttributes } from 'astro/types'
+
+interface Props extends HTMLAttributes<'blockquote'> {}
+const { class: className, cite, ...props } = Astro.props
+---
+
+<blockquote
+  class={cn(
+    'pl-24 border-l-3 border-accent-orange flex flex-col gap-14 md:gap-24 my-20',
+    className
+  )}
+  {...props}>
+  <Text type='label' class='leading-heading' size='2xl' tablet='3xl' tv='4xl' characters='sm'
+    ><slot /></Text
+  >
+  {cite && <cite class='italic text-base-subtle text-body-base 2xl:text-body-lg'>— {cite}</cite>}
+</blockquote>

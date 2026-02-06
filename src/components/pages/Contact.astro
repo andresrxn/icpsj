@@ -1,0 +1,136 @@
+---
+import Button from '@/components/Button.astro'
+import Checkbox from '@/components/Checkbox.astro'
+import ContactCard from '@/components/ContactCard.astro'
+import Divider from '@/components/Divider.astro'
+import Input from '@/components/Input.astro'
+import Label from '@/components/Label.astro'
+import Link from '@/components/Link.astro'
+import Map from '@/components/Map.astro'
+import Textarea from '@/components/Textarea.astro'
+import Trans from '@/components/Trans.astro'
+import WhatsAppIcon from '@/components/icons/WhatsAppIcon.astro'
+import Heading from '@/components/typography/Heading.astro'
+import Text from '@/components/typography/Text.astro'
+import { COMPANY } from '@/consts'
+import { getI18N } from '@/i18n'
+import { getLangFromUrl, useTranslatedPath } from '@/i18n/utils'
+import RootLayout from '@/layouts/RootLayout.astro'
+import { generateSiteTitle } from '@/utils/meta'
+import { Facebook, Instagram, Mail, Phone, Youtube } from 'lucide-astro'
+
+const lang = getLangFromUrl(Astro.url)
+const i18n = getI18N({ currentLocale: lang })
+const translatePath = useTranslatedPath(lang)
+---
+
+<RootLayout
+  title={generateSiteTitle(i18n.contact.meta.title)}
+  description={i18n.contact.meta.description}>
+  <main>
+    <section class='container-grid pt-48 pb-82 md:max-w-screen-sm lg:max-w-screen-lg'>
+      <Heading size='sm' center tablet='base' tv='lg'>{i18n.contact.title} </Heading>
+      <Text center class='mt-12' priority='secondary' tv='lg' characters='base'>
+        {i18n.contact.meta.description}
+      </Text>
+      <div class='lg:grid lg:grid-cols-2 lg:mt-20 gap-20'>
+        <Map
+          popup
+          popupContent={COMPANY.ADDRESS.FULL}
+          class='mt-18 lg:h-[450px]'
+          lat={COMPANY.ADDRESS.LAT}
+          lng={COMPANY.ADDRESS.LNG}
+          zoom={13}
+        />
+        <Divider class='my-36 lg:hidden' />
+        <form class='mt-24 lg:mt-18 flex flex-col gap-12' method='POST'>
+          <Label>
+            {i18n.common.form.fullname.label}
+            <Input
+              placeholder={i18n.common.form.fullname.placeholder}
+              spellcheck='false'
+              autocomplete='given-name'
+              minlength={3}
+              required
+            />
+          </Label>
+
+          <Label>
+            {i18n.common.form.email.label}
+            <Input placeholder={i18n.common.form.email.placeholder} type='email' required />
+          </Label>
+
+          <Label>
+            {i18n.common.form.message.label}
+            <Textarea placeholder={i18n.common.form.message.placeholder} required />
+          </Label>
+
+          <Checkbox label name='terms'>
+            <Trans i18nKey={i18n.common.form.termsAndPrivacy.label}>
+              He leído y acepto la {
+                (
+                  <Link target='_blank' href={translatePath('/politica-de-privacidad')}>
+                    Política de Privacidad
+                  </Link>
+                )
+              } y los {
+                (
+                  <Link target='_blank' href={translatePath('/terminos-y-condiciones')}>
+                    Términos y Condiciones
+                  </Link>
+                )
+              } del sitio web
+            </Trans>
+          </Checkbox>
+
+          <Button class='mt-12' full>Enviar</Button>
+        </form>
+      </div>
+    </section>
+    <section class='bg-surface py-60'>
+      <div
+        class='container-grid grid gap-20 md:grid-cols-3 md:gap-y-44 max-w-screen-sm md:max-w-screen-md'>
+        <ContactCard
+          label={i18n.common.form.phone.label}
+          href={`tel:${COMPANY.TELEPHONE}`}
+          contactPoint={COMPANY.TELEPHONE}
+          icon={Phone}
+        />
+        <ContactCard
+          label={i18n.common.form.email.label}
+          href={`mailto:${COMPANY.EMAILS.INFO}&subject=${i18n.contact.meta.title}`}
+          contactPoint={COMPANY.EMAILS.INFO}
+          icon={Mail}
+        />
+        <ContactCard
+          label='WhatsApp'
+          href={COMPANY.SOCIAL.WHATSAPP}
+          contactPoint={i18n.common.actions.goToChat}
+          external
+          icon={WhatsAppIcon}
+        />
+        <ContactCard
+          label='Facebook'
+          href={COMPANY.SOCIAL.FACEBOOK}
+          contactPoint={i18n.common.actions.seeProfile}
+          external
+          icon={Facebook}
+        />
+        <ContactCard
+          label='Instagram'
+          href={COMPANY.SOCIAL.INSTAGRAM}
+          contactPoint={i18n.common.actions.seeProfile}
+          external
+          icon={Instagram}
+        />
+        <ContactCard
+          label='YouTube'
+          href={COMPANY.SOCIAL.YOUTUBE}
+          contactPoint={i18n.common.actions.seeChannel}
+          external
+          icon={Youtube}
+        />
+      </div>
+    </section>
+  </main>
+</RootLayout>

@@ -1,0 +1,30 @@
+---
+import Select from '@/components/Select.astro'
+import { LANGUAGES } from '@/i18n/ui'
+import { getLangFromUrl, getRouteFromUrl, useTranslatedPath } from '@/i18n/utils'
+
+const lang = getLangFromUrl(Astro.url)
+const translatePath = useTranslatedPath(lang)
+
+const currentLocaleData = LANGUAGES[lang]
+
+const otherLocales = Object.values(LANGUAGES).filter(locale => locale.code !== lang)
+const route = getRouteFromUrl(Astro.url)
+---
+
+<Select size='sm' variant='secondary' onchange='location = this.value;'>
+  {
+    (
+      <option
+        selected={true}
+        value={translatePath(`${route ? route : ''}`, currentLocaleData.code)}>
+        {currentLocaleData.name}
+      </option>
+    )
+  }
+  {
+    otherLocales.map(locale => (
+      <option value={translatePath(`${route ? route : ''}`, locale.code)}>{locale.name}</option>
+    ))
+  }
+</Select>

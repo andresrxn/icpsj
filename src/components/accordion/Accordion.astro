@@ -1,0 +1,14 @@
+---
+import { cn } from '@/utils/theme'
+import type { HTMLAttributes } from 'astro/types'
+
+interface Props extends HTMLAttributes<'div'> {}
+
+const { class: className, ...props } = Astro.props
+---
+
+<div
+  class={cn('grid gap-12 relative max-w-screen-sm xl:max-w-screen-md mx-auto', className)}
+  {...props}>
+  <slot />
+</div>

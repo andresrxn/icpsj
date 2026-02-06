@@ -1,0 +1,33 @@
+---
+import JsonSchema from '@/components/schemas/JsonSchema.astro'
+import { COMPANY, SITE } from '@/consts'
+import { getI18N } from '@/i18n'
+import { getLangFromUrl } from '@/i18n/utils'
+
+const lang = getLangFromUrl(Astro.url)
+const i18n = getI18N({ currentLocale: lang })
+
+const content = {
+  '@context': 'https://schema.org',
+  '@type': 'NGO',
+  url: SITE.URL,
+  name: SITE.TITLE,
+  alternateName: SITE.TITLE_LONG,
+  description: i18n.common.site.description,
+  image: SITE.URL + SITE.SEO.IMAGES.BANNER_SOCIAL,
+  logo: SITE.URL + SITE.SEO.IMAGES.LOGO,
+  email: COMPANY.EMAILS.INFO,
+  telephone: COMPANY.TELEPHONE,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: COMPANY.ADDRESS.STREET,
+    addressLocality: COMPANY.ADDRESS.LOCALITY,
+    addressCountry: COMPANY.ADDRESS.COUNTRY_CODE,
+    addressRegion: COMPANY.ADDRESS.REGION,
+    postalCode: COMPANY.ADDRESS.POSTAL_CODE
+  },
+  foundingDate: COMPANY.FOUNDING_DATE
+}
+---
+
+<JsonSchema schema={content} />

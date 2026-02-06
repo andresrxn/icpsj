@@ -1,0 +1,151 @@
+---
+import Button from '@/components/Button.astro'
+import InputSearch from '@/components/InputSearch.astro'
+import Label from '@/components/Label.astro'
+import Pagination from '@/components/Pagination.astro'
+import EmptySearch from '@/components/sections/EmptySearch.astro'
+import StudieCard from '@/components/studies/StudieCard.astro'
+import Heading from '@/components/typography/Heading.astro'
+import Text from '@/components/typography/Text.astro'
+import RootLayout from '@/layouts/RootLayout.astro'
+import { formatSlug, removeDiacritics } from '@/utils/articles'
+import { generateSiteTitle } from '@/utils/meta'
+import { getCollection } from 'astro:content'
+import { getI18N } from '@/i18n'
+import { getLangFromUrl } from '@/i18n/utils'
+
+const lang = getLangFromUrl(Astro.url)
+const i18n = getI18N({ currentLocale: lang })
+
+const query = Astro.url.searchParams.get('q')!
+
+const posts = await getCollection('studies', entry => {
+  return entry.slug.startsWith(lang)
+})
+const filteredPosts = posts.filter(post => {
+  const queryNormalized = removeDiacritics(query.toLocaleLowerCase())
+  const titleNormalized = removeDiacritics(post.data.title.toLocaleLowerCase())
+  const descriptionNormalized = removeDiacritics(post.data.description.toLocaleLowerCase())
+  const bookNormalized = removeDiacritics(post.data.book.toLocaleLowerCase())
+  const titleExactMatch = titleNormalized.startsWith(queryNormalized)
+  const descriptionExactMatch = descriptionNormalized.startsWith(queryNormalized)
+  const bookExactMatch = bookNormalized.startsWith(queryNormalized)
+  const titleContains = titleNormalized.includes(queryNormalized)
+  const descriptionContains = descriptionNormalized.includes(queryNormalized)
+  const bookContains = bookNormalized.includes(queryNormalized)
+  return (
+    titleExactMatch ||
+    descriptionExactMatch ||
+    bookExactMatch ||
+    titleContains ||
+    descriptionContains ||
+    bookContains
+  )
+})
+const MAX_POSTS_TO_SHOW = 9
+const currentPage = Astro.url.searchParams.get('p') !== null ? +Astro.url.searchParams.get('p')! : 1
+const totalPages = Math.ceil(filteredPosts.length / MAX_POSTS_TO_SHOW)
+const postPerPage = filteredPosts.slice(
+  (currentPage - 1) * MAX_POSTS_TO_SHOW,
+  currentPage * MAX_POSTS_TO_SHOW
+)
+---
+
+<RootLayout
+  title={generateSiteTitle(i18n.books.meta.title)}
+  description={i18n.books.meta.description}>
+  <main>
+    <section class='py-32 pb-44 lg:pt-44'>
+      <div class='container-grid'>
+        <Heading size='sm' tablet='base' class='line-clamp-2'>
+          {i18n.common.labels.resultsFor}:
+          {' '}
+          {query}
+        </Heading>
+        <div class='flex items-center gap-8 mt-8'>
+          <Text tv='lg' type='label' class='text-primary-base'>{filteredPosts.length}</Text>
+          <Text tv='lg'
+            >{
+              filteredPosts.length === 1
+                ? i18n.common.labels.studyFound
+                : i18n.common.labels.studiesFound
+            }</Text
+          >
+        </div>
+        <form action='' class='relative mt-20 max-w-screen-sm' id='form'>
+          <Label class='sr-only' for='q'>{i18n.common.form.search.label}</Label>
+          <InputSearch
+            placeholder={i18n.common.form.search.placeholder}
+            id='q'
+            name='q'
+            value={query}
+            class='pr-[110px]'
+          />
+          <Button
+            id='search-btn'
+            class='active [&.active]:flex hidden absolute top-[50%] -translate-y-[50%] right-2'
+            size='sm'>{i18n.common.actions.search}</Button
+          >
+        </form>
+      </div>
+    </section>
+    <section class='bg-surface pt-44 pb-82'>
+      {postPerPage.length === 0 && <EmptySearch />}
+      {
+        postPerPage.length > 0 && (
+          <>
+            <div class='container-grid grid gap-32 md:grid-cols-2 md:gap-x-16 lg:grid-cols-3'>
+              {postPerPage.map(post => {
+                const formatedSlug = formatSlug(post.slug)
+
+                return (
+                  <StudieCard
+                    book={post.data.book}
+                    createdAt={post.data.createdAt}
+                    updatedAt={post.data.updatedAt}
+                    slug={formatedSlug}
+                    title={post.data.title}
+                    description={post.data.description}
+                    imageSrc={post.data.imageSrc}
+                    imageAlt={post.data.imageAlt}
+                  />
+                )
+              })}
+            </div>
+            <Pagination
+              currentPage={currentPage}
+              isFirstPage={currentPage === 1}
+              isLastPage={currentPage === totalPages}
+              totalPages={totalPages}
+              url={`?q=${query}`}
+              notFirst
+              class='container-grid mt-48'
+            />
+          </>
+        )
+      }
+    </section>
+  </main>
+</RootLayout>
+
+<script>
+  const searchInput = document.getElementById('q') as HTMLInputElement
+  const searchBtn = document.getElementById('search-btn') as HTMLButtonElement
+  const form = document.getElementById('form') as HTMLFormElement
+
+  form.addEventListener('submit', e => {
+    if (searchInput.value.length < 2) e.preventDefault()
+  })
+
+  searchInput.addEventListener('input', e => {
+    const input = e.target as HTMLInputElement
+
+    if (input.value.length >= 2) {
+      searchBtn.classList.add('active')
+      searchInput.classList.remove('search-none')
+    } else {
+      searchBtn.classList.remove('active')
+      searchInput.classList.add('search-none')
+    }
+  })
+</script>

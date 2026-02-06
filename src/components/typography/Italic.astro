@@ -1,0 +1,10 @@
+---
+import { cn } from '@/utils/theme'
+import type { HTMLAttributes } from 'astro/types'
+
+interface Props extends HTMLAttributes<'em'> {}
+const { class: className, ...props } = Astro.props
+---
+
+<em class={cn('text-inherit text-body-inherit font-body italic', className)} {...props}><slot /></em
+>

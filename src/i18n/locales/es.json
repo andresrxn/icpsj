@@ -1,0 +1,312 @@
+{
+  "common": {
+    "site": {
+      "description": "Iglesia evangélica guatemalteca que comparte el amor y la palabra de Dios. Vive la fe, la adoración y la comunidad.",
+      "keywords": "estudios bíblicos, iglesia Guatemala, conocimiento a Dios, iglesia la presencia del señor jesus, la presencia del señor jesus"
+    },
+    "links": {
+      "home": "Inicio",
+      "about": "Acerca de",
+      "studies": "Estudios",
+      "devotionals": "Devocionales",
+      "resources": "Recursos",
+      "schedule": "Horarios",
+      "prayer": "Oración",
+      "privacy": "Política de Privacidad",
+      "terms": "Términos y Condiciones",
+      "cookies": "Política de Cookies",
+      "contact": "Contacto"
+    },
+    "actions": {
+      "backToHome": "Volver al inicio",
+      "moreDetails": "Ver más detalles",
+      "readFullChapter": "Leer capítulo completo",
+      "cancel": "Cancelar",
+      "share": "Compartir",
+      "shareVerse": "Compartir Versículo",
+      "download": "Descargar",
+      "downloadImage": "Descargar Imágen",
+      "donate": "Ofrendar/Donar",
+      "shareOn": "Compartir en",
+      "seeAllStudies": "Ver todos los estudios",
+      "seeAllBooks": "Ver todos los libros",
+      "playVideo": "Reproducir el video",
+      "visit": "Visitar",
+      "send": "Enviar",
+      "goToChat": "Ir al Chat",
+      "seeChannel": "Ver Canal",
+      "seeProfile": "Ver Perfil",
+      "seeContactMethods": "Ver métodos de contacto",
+      "search": "Buscar"
+    },
+    "form": {
+      "search": {
+        "label": "Buscar",
+        "placeholder": "Buscar..."
+      },
+      "fullname": {
+        "label": "Nombre(s) y Apellido(s)",
+        "placeholder": "José Pérez"
+      },
+      "email": {
+        "label": "Correo Electrónico",
+        "placeholder": "nombre@ejemplo.com"
+      },
+      "phone": {
+        "label": "Número Telefónico",
+        "placeholder": "+502 5555-5555"
+      },
+      "message": {
+        "label": "Mensaje",
+        "placeholder": "Tu mensaje..."
+      },
+      "prayer": {
+        "from": {
+          "label": "Quién solicita la oración"
+        },
+        "toWhom": {
+          "label": "¿Por quién se debería orar?",
+          "placeholder": "Por mí, mis padres, mis hijos, amigos..."
+        },
+        "reasons": {
+          "label": "Razón(es) de la oración",
+          "placeholder": "Enfermedad, situación económica..."
+        },
+        "tellMore": {
+          "label": "Cuéntanos más acerca de la situación"
+        }
+      },
+      "termsAndPrivacy": {
+        "label": "He leído y acepto la <0>Política de Privacidad</0> y los <1>Términos y Condiciones</1> del sitio web"
+      }
+    },
+    "images": {
+      "rest": "TODO",
+      "og": "Logo principal con representación de iglesia adorando",
+      "avatarCard": "Representación de la fotografía",
+      "verseModal": "Imágen generada con el versículo en la parte superior y el logo de la iglesia en la parte inferior"
+    },
+    "donation": {
+      "title": "¿Deseas apoyar a la iglesia?",
+      "description": "Puedes dar tu aporte por medio de PayPal o con tu tarjeta de crédito/débito"
+    },
+    "footer": {
+      "titles": {
+        "principal": "Principal",
+        "legal": "Legal",
+        "church": "Iglesia"
+      }
+    },
+    "labels": {
+      "topic": "Tema",
+      "optional": "Opcional",
+      "value": "Valor",
+      "generalPastor": "Pastor General",
+      "popularTags": "Tags Populares",
+      "soon": "Próximamente",
+      "recomendations": "Recomendaciones",
+      "updated": "Actualizado",
+      "bookOf": "Libro de",
+      "devotionalsOf": "Devocionales sobre",
+      "studiesFound": "Estudios encontrados",
+      "booksFound": "Libros encontrados",
+      "devotionalsFound": "Devocionales encontrados",
+      "studyFound": "Estudio encontrado",
+      "bookFound": "Libro encontrado",
+      "devotionalFound": "Devocional encontrado",
+      "next": "Siguiente",
+      "prev": "Anterior",
+      "resultsFor": "Resultados para",
+      "emptyResultsTitle": "No se encontraron resultados",
+      "emptyResultsDescription": "Intenta con otro criterio de búsqueda"
+    }
+  },
+  "notFound": {
+    "title": "Página no encontrada",
+    "description": "La página que solicitaste no se encuentra disponible"
+  },
+  "home": {
+    "sections": {
+      "services": {
+        "title": "Último Servicio",
+        "description": "No te pierdas ninguna prédica, visita nuestro <0>canal de YouTube</0> y aprende de  todos los temas compartidos"
+      },
+      "schedule": {
+        "title": "Horarios"
+      },
+      "studies": {
+        "title": "Estudios Bíblicos",
+        "description": "Amplia tu conocimiento espiritual por medio de múltiples escenarios que nos comparte la palabra"
+      },
+      "extra": {
+        "title": "Acerquémonos al Señor",
+        "description": "Descubre diferentes maneras de estar en constante comunión con el Señor"
+      },
+      "verseModal": {
+        "title": "Compartir Versículo",
+        "description": "¡Haz llegar la palabra de Dios a más personas!"
+      }
+    }
+  },
+  "about": {
+    "meta": {
+      "title": "Acerca de",
+      "description": "Conoce más sobre nuestra historia, misión y los líderes que guían nuestra iglesia."
+    },
+    "sections": {
+      "leadership": {
+        "title": "Liderazgo",
+        "description": "Pastores que guían y enseñan a nuestra iglesia la palabra de Dios",
+        "pastors": {}
+      },
+      "church": {
+        "title": "Sirviendo desde 2021",
+        "description": "Hemos estado sirviendo a la comunidad desde 2021, compartiendo el mensaje de esperanza y amor de Jesucristo.",
+        "history": {
+          "title": "Historia",
+          "description_1": "La Iglesia fue fundada el 10 de enero de 2021, con la misión de difundir el mensaje de esperanza y amor de Jesucristo a la comunidad, y desde entonces hemos estado creciendo y sirviendo a la comunidad.",
+          "description_2": "Desde entonces, hemos estado creciendo y sirviendo a la comunidad, y estamos comprometidos a continuar difundiendo el mensaje de esperanza y amor de Jesucristo a más personas."
+        },
+        "mision": {
+          "title": "Misión",
+          "description": "Difundir el mensaje de esperanza y amor de Jesucristo a la comunidad."
+        },
+        "vision": {
+          "title": "Visión",
+          "description": "Ser una iglesia que transforma vidas a través del amor de Jesucristo."
+        },
+        "values": {
+          "title": "Valores",
+          "description": "Estos son los valores que guían a nuestra iglesia",
+          "value_1": "Primero el Reino de Dios",
+          "value_2": "Amar a Dios y al prójimo",
+          "value_3": "Honestidad e integridad",
+          "value_4": "Respeto y tolerancia",
+          "value_5": "Amor y compasión"
+        },
+        "location": {
+          "title": "Ubicación"
+        }
+      }
+    }
+  },
+
+  "contact": {
+    "title": "Contacto",
+    "meta": {
+      "title": "Contacto",
+      "description": "En línea o en nuestra iglesia puedes acercarte y platicar con nosotros, estaremos encantados de escucharte"
+    }
+  },
+  "prayer": {
+    "title": "Solicitar Oración",
+    "meta": {
+      "title": "Podemos apoyarte en oración",
+      "description": "Juntos como hermanos podemos apoyarte en oración según la situación en la que te encuentres"
+    }
+  },
+  "schedule": {
+    "title": "Horarios",
+    "meta": {
+      "title": "Horarios",
+      "description": "Acompáñanos en nuestras reuniones a lo largo de la semana y sé parte de nuestra iglesia"
+    },
+    "services": {
+      "monday": {
+        "day": "Lunes",
+        "titleShort": "Culto de Oración",
+        "topic": "Conocer al Señor",
+        "cite": "Juan 1:12",
+        "title": "Lunes de Oración",
+        "description": "Enfocados en poner las oraciones delante del Señor"
+      },
+      "wednesday": {
+        "day": "Miércoles",
+        "titleShort": "Visita Pastoral",
+        "title": "Miércoles Visita Pastoral",
+        "description": "Encuentro personal y oración con familias"
+      },
+      "thursday": {
+        "day": "Jueves",
+        "titleShort": "Estudios Bíblicos",
+        "topic": "Conocer al Señor",
+        "cite": "Juan 1:12",
+        "title": "Jueves de Estudios Bíblicos",
+        "description": "Conociendo y acercándose al Señor con la palabra"
+      },
+      "friday": {
+        "day": "Viernes",
+        "titleShort": "Estudios Bíblicos",
+        "topic": "Conocer al Señor",
+        "cite": "Juan 1:12",
+        "title": "Viernes de Estudios Bíblicos",
+        "description": "Estudiando libros específicos de la palabra"
+      },
+      "sunday": {
+        "day": "Domingo",
+        "titleShort": "Culto General",
+        "topic": "Conocer al Señor",
+        "cite": "Juan 1:12",
+        "title": "Domingo Servicio General",
+        "description": "Culto dominical con todos los hermanos"
+      }
+    }
+  },
+  "studies": {
+    "title": "Estudios Bíblicos",
+    "meta": {
+      "title": "Estudios Bíblicos",
+      "description": "Decenas de temas para profundizar en la palabra y conocer los misterios del Reino de los Cielos"
+    }
+  },
+  "quiz": {
+    "title": "Quiz",
+    "meta": {
+      "title": "Quiz",
+      "description": ""
+    }
+  },
+  "resources": {
+    "title": "Recursos Bíblicos",
+    "meta": {
+      "title": "Recursos",
+      "description": "Accede a recursos y materiales bíblicos descargables para facilitar tu aprendizaje"
+    },
+    "sections": {
+      "lecture": {
+        "description": "Herramientas para leer la palabra en cualquier lugar",
+        "title": "Lectura",
+        "esword": "Leer y estudiar la biblia offline",
+        "brc": "Referencias bíblicas por versículo y capítulo",
+        "bg": "Leer y estudiar la biblia online",
+        "openlp": "Presentaciones para prédicas y enseñanzas"
+      },
+      "versions": {
+        "title": "Versiones de Biblias",
+        "description": "Versiones en español para agregar a E-Sword"
+      },
+      "comments": {
+        "title": "Comentarios",
+        "description": "Comentarios en español para agregar a E-Sword"
+      },
+      "dictionaries": {
+        "title": "Diccionarios",
+        "description": "Diccionarios en español para agregar a E-Sword"
+      }
+    }
+  },
+  "books": {
+    "title": "Estudios por Libro",
+    "meta": {
+      "title": "Estudios por Libro",
+      "description": "Facilíta tu aprendizaje leyendo por libro con sus estudios espécificos"
+    }
+  },
+  "devotionals": {
+    "title": "Devocionales",
+    "meta": {
+      "title": "Devocionales",
+      "description": "Lee y medita diariamente por medio de un devocional que te acercará cada vez más al Señor"
+    }
+  }
+}

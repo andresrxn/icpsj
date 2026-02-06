@@ -1,0 +1,33 @@
+---
+import { cn } from '@/utils/theme'
+import type { HTMLAttributes } from 'astro/types'
+import { Plus } from 'lucide-astro'
+
+interface Props extends HTMLAttributes<'details'> {
+  label: string
+  open?: boolean
+}
+
+const { class: className, open = false, label, ...props } = Astro.props
+---
+
+<details
+  class={cn(
+    'relative rounded-base group transition-all ease-base duration-base rounded-b-base after:content-[""] after:border-b after:border-base after:absolute after:-bottom-6 after:left-0 after:w-full after:h-0 last:after:hidden',
+    className
+  )}
+  {...props}
+  open={open}>
+  <summary
+    class='text-label-base xl:text-label-lg xl:p-20 list-none cursor-pointer p-12 rounded-base flex items-center justify-between bg-surface hover:bg-surface-hover group-open:bg-surface-hover group-open:hover:bg-surface-active focus-visible:outline-focus'
+    >{label}
+    <Plus
+      class={cn(
+        'text-icon-primary size-icon-sm group-open:-rotate-45 transition-transform ease-base duration-base xl:size-icon-base '
+      )}
+    /></summary
+  >
+  <div class='px-12 py-20 xl:p-20 space-y-18'>
+    <slot />
+  </div>
+</details>

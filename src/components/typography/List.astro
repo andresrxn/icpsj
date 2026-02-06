@@ -1,0 +1,223 @@
+---
+import { cn } from '@/utils/theme'
+import type { HTMLAttributes } from 'astro/types'
+import { cva, type VariantProps } from 'class-variance-authority'
+
+const listVariants = cva('font-body text-ellipsis text-pretty pl-18 list-outside grid gap-16', {
+  variants: {
+    child: {
+      true: ''
+    },
+    ordered: {
+      true: 'list-decimal',
+      false: 'list-disc'
+    },
+    size: {
+      xs: true,
+      sm: true,
+      base: true,
+      lg: true,
+      xl: true
+    },
+    tablet: {
+      xs: true,
+      sm: true,
+      base: true,
+      lg: true,
+      xl: true
+    },
+    laptop: {
+      xs: true,
+      sm: true,
+      base: true,
+      lg: true,
+      xl: true
+    },
+    desktop: {
+      xs: true,
+      sm: true,
+      base: true,
+      lg: true,
+      xl: true
+    },
+    tv: {
+      xs: true,
+      sm: true,
+      base: true,
+      lg: true,
+      xl: true
+    },
+
+    priority: {
+      primary: 'text-base',
+      secondary: 'text-base-subtle',
+      tertiary: 'text-base-subtler'
+    },
+    characters: {
+      sm: 'max-w-prose-sm',
+      base: 'max-w-prose-base',
+      lg: 'max-w-prose-lg'
+    },
+    inverted: {
+      true: 'text-base-inverted',
+      fixed: 'text-base-inverted-fixed'
+    }
+  },
+  compoundVariants: [
+    {
+      child: true,
+      class: 'text-body-inherit text-inherit'
+    },
+    {
+      size: 'xs',
+      class: 'text-body-xs'
+    },
+    {
+      size: 'sm',
+      class: 'text-body-sm'
+    },
+    {
+      size: 'base',
+      class: 'text-body-base'
+    },
+    {
+      size: 'lg',
+      class: 'text-body-lg'
+    },
+    {
+      size: 'xl',
+      class: 'text-body-xl'
+    },
+
+    {
+      tablet: 'xs',
+      class: 'md:text-body-xs'
+    },
+    {
+      tablet: 'sm',
+      class: 'md:text-body-sm'
+    },
+    {
+      tablet: 'base',
+      class: 'md:text-body-base'
+    },
+    {
+      tablet: 'lg',
+      class: 'md:text-body-lg'
+    },
+    {
+      tablet: 'xl',
+      class: 'md:text-body-xl'
+    },
+
+    {
+      laptop: 'xs',
+      class: 'lg:text-body-xs'
+    },
+    {
+      laptop: 'sm',
+      class: 'lg:text-body-sm'
+    },
+    {
+      laptop: 'base',
+      class: 'lg:text-body-base'
+    },
+    {
+      laptop: 'lg',
+      class: 'lg:text-body-lg'
+    },
+    {
+      laptop: 'xl',
+      class: 'lg:text-body-xl'
+    },
+
+    {
+      desktop: 'xs',
+      class: 'xl:text-body-xs'
+    },
+    {
+      desktop: 'sm',
+      class: 'xl:text-body-sm'
+    },
+    {
+      desktop: 'base',
+      class: 'xl:text-body-base'
+    },
+    {
+      desktop: 'lg',
+      class: 'xl:text-body-lg'
+    },
+    {
+      desktop: 'xl',
+      class: 'xl:text-body-xl'
+    },
+
+    {
+      tv: 'xs',
+      class: '2xl:text-body-xs'
+    },
+    {
+      tv: 'sm',
+      class: '2xl:text-body-sm'
+    },
+    {
+      tv: 'base',
+      class: '2xl:text-body-base'
+    },
+    {
+      tv: 'lg',
+      class: '2xl:text-body-lg'
+    },
+    {
+      tv: 'xl',
+      class: '2xl:text-body-xl'
+    }
+  ],
+  defaultVariants: {
+    child: false,
+    ordered: false,
+    priority: 'primary',
+    size: 'base',
+    inverted: false
+  }
+})
+
+interface Props extends HTMLAttributes<'ul'>, VariantProps<typeof listVariants> {}
+
+const {
+  class: className,
+  priority,
+  size,
+  inverted,
+  tablet,
+  laptop,
+  desktop,
+  tv,
+  child,
+  ordered,
+  characters,
+  ...props
+} = Astro.props
+
+const Tag = ordered ? 'ol' : 'ul'
+---
+
+<Tag
+  class={cn(
+    listVariants({
+      characters,
+      desktop,
+      inverted,
+      laptop,
+      priority,
+      size,
+      tablet,
+      tv,
+      ordered,
+      child
+    }),
+    className
+  )}
+  {...props}>
+  <slot />
+</Tag>

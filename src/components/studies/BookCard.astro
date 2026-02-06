@@ -1,0 +1,30 @@
+---
+import Link, { type Props as LinkProps } from '@/components/Link.astro'
+import Text from '@/components/typography/Text.astro'
+import { getLangFromUrl, useTranslatedPath } from '@/i18n/utils'
+import { cn } from '@/utils/theme'
+import { BookMarked } from 'lucide-astro'
+
+const lang = getLangFromUrl(Astro.url)
+const translatePath = useTranslatedPath(lang)
+
+interface Props extends Omit<LinkProps, 'href'> {
+  book: string
+}
+
+const { book, class: className, ...props } = Astro.props
+---
+
+<Link
+  wrapper
+  href={`${translatePath('/estudios/libros')}/${book.toLocaleLowerCase()}`}
+  class={cn(
+    'size-82 shrink-0 bg-surface rounded-full flex items-center justify-center shadow-sm hover:outline hover:outline-base',
+    className
+  )}
+  {...props}>
+  <div class='h-full w-full flex flex-col items-center justify-center gap-6'>
+    <BookMarked class='size-icon-lg text-icon-primary' />
+    <Text type='label' size='xs' class='truncate max-w-[75%]' center>{book}</Text>
+  </div>
+</Link>

@@ -1,0 +1,52 @@
+---
+interface Props {
+  i18nKey: string
+}
+
+const { i18nKey } = Astro.props
+
+function replacePlaceholdersWithComponents(text: string, components: string): string {
+  // Expresión regular para identificar las etiquetas numeradas de apertura y cierre
+  const openingTagRegex = /<(\d+)>/g
+  const closingTagRegex = /<\/(\d+)>/g
+
+  // Extraer todas las etiquetas de apertura y cierre del segundo string (components)
+  const tagRegex = /<[^>]+>/g
+  const tags = components.match(tagRegex) || []
+
+  // Crear un mapa de números a etiquetas
+  const tagMap: { [key: number]: { openTag: string; closeTag: string } } = {}
+  let index = 0
+  for (let i = 0; i < tags.length; i += 2) {
+    const openTag = tags[i]
+    const closeTag = tags[i + 1]
+    if (openTag && closeTag) {
+      tagMap[index / 2] = { openTag, closeTag }
+    }
+    index += 2
+  }
+
+  // Función de reemplazo que inserta las etiquetas HTML de apertura correspondientes
+  const openTagReplacer = (match: string, p1: string) => {
+    const num = parseInt(p1, 10)
+    return tagMap[num]?.openTag || match // Devuelve la etiqueta de apertura correspondiente o la original si no hay coincidencia
+  }
+
+  // Función de reemplazo que inserta las etiquetas HTML de cierre correspondientes
+  const closeTagReplacer = (match: string, p1: string) => {
+    const num = parseInt(p1, 10)
+    return tagMap[num]?.closeTag || match // Devuelve la etiqueta de cierre correspondiente o la original si no hay coincidencia
+  }
+
+  // Reemplazar las etiquetas numeradas de apertura y cierre con las etiquetas HTML completas
+  const replacedOpenTags = text.replace(openingTagRegex, openTagReplacer)
+  const result = replacedOpenTags.replace(closingTagRegex, closeTagReplacer)
+
+  return result
+}
+
+const childrenArray = await Astro.slots.render('default')
+const content = replacePlaceholdersWithComponents(i18nKey, childrenArray)
+---
+
+<Fragment set:html={content} />

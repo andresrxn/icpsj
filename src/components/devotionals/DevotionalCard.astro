@@ -1,0 +1,57 @@
+---
+import FormattedDate from '@/components/FormattedDate.astro'
+import Link from '@/components/Link.astro'
+import Heading from '@/components/typography/Heading.astro'
+import Text from '@/components/typography/Text.astro'
+import { getLangFromUrl, useTranslatedPath } from '@/i18n/utils'
+import { formatSlug } from '@/utils/articles'
+import { cn } from '@/utils/theme'
+import type { HTMLAttributes } from 'astro/types'
+
+const lang = getLangFromUrl(Astro.url)
+
+const translatePath = useTranslatedPath(lang)
+
+interface Props extends HTMLAttributes<'article'> {
+  title: string
+  description: string
+  verse?: string
+  cite: string
+  slug: string
+  createdAt: Date
+  updatedAt?: Date
+}
+
+const {
+  title,
+  description,
+  verse,
+  cite,
+  createdAt,
+  updatedAt,
+  slug,
+  class: className,
+  ...props
+} = Astro.props
+
+const formatedSlug = formatSlug(slug)
+---
+
+<article class={cn('', className)} {...props}>
+  <Link
+    wrapper
+    href={`${translatePath('/devocionales')}/${formatedSlug}`}
+    class='flex-col gap-8 bg-base hover:bg-base-hover rounded-base p-8 md:flex-row md:gap-20 md:justify-between md:w-full md:p-18 h-full'>
+    <div class='shrink-0 md:w-[25%]'>
+      <FormattedDate
+        date={createdAt}
+        class='text-base-subtle text-body-sm md:text-center md:pt-4 md:block 2xl:text-body-base'
+      />
+    </div>
+    <div class='flex flex-col gap-8 md:flex-1 md:w-[65%]'>
+      <Heading level={3} size='sm' tv='base'>{title}</Heading>
+      <Text type='label' class='text-primary-base' size='sm' tv='base'>{cite}</Text>
+      <Text priority='secondary' class='line-clamp-2' size='sm' tv='base'>{description}</Text>
+    </div>
+  </Link>
+</article>

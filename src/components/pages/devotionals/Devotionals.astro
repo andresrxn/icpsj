@@ -1,0 +1,150 @@
+---
+import Button from '@/components/Button.astro'
+import InputSearch from '@/components/InputSearch.astro'
+import Label from '@/components/Label.astro'
+import Link from '@/components/Link.astro'
+import Pagination from '@/components/Pagination.astro'
+import DevotionalCard from '@/components/devotionals/DevotionalCard.astro'
+import Heading from '@/components/typography/Heading.astro'
+import Text from '@/components/typography/Text.astro'
+import RootLayout from '@/layouts/RootLayout.astro'
+import { generateSiteTitle } from '@/utils/meta'
+import { getCollection } from 'astro:content'
+import { getI18N } from '@/i18n'
+import { getLangFromUrl, useTranslatedPath } from '@/i18n/utils'
+
+const lang = getLangFromUrl(Astro.url)
+const i18n = getI18N({ currentLocale: lang })
+const translatePath = useTranslatedPath(lang)
+
+const devotionals = (
+  await getCollection('devotionals', entry => {
+    return entry.slug.startsWith(lang)
+  })
+).sort((a, b) => b.data.createdAt.valueOf() - a.data.createdAt.valueOf())
+const tags = Array.from(new Set(devotionals.map(entry => entry.data.tags.flat()))).flat()
+const tagsCount = tags.reduce((acc: Map<string, number>, tags: string) => {
+  acc.set(tags, (acc.get(tags) || 0) + 1)
+  return acc
+}, new Map())
+const tagsWithCounts = Array.from(tagsCount.entries()).map(([name, amount]) => ({ name, amount }))
+const sortedTagsByAmount = tagsWithCounts.sort((a, b) => b.amount - a.amount)
+const MAX_TAGS_TO_SHOW = 6
+const MAX_DEVOTIONALS_TO_SHOW = 6
+const currentPage = Astro.url.searchParams.get('p') !== null ? +Astro.url.searchParams.get('p')! : 1
+const totalPages = Math.ceil(devotionals.length / MAX_DEVOTIONALS_TO_SHOW)
+const devotionalsPerPage = devotionals.slice(
+  (currentPage - 1) * (currentPage === 1 ? MAX_DEVOTIONALS_TO_SHOW + 1 : MAX_DEVOTIONALS_TO_SHOW),
+  currentPage * (currentPage === 1 ? MAX_DEVOTIONALS_TO_SHOW + 1 : MAX_DEVOTIONALS_TO_SHOW)
+)
+---
+
+<RootLayout
+  title={generateSiteTitle(i18n.studies.meta.title)}
+  description={i18n.studies.meta.description}>
+  <main>
+    <section class='container-grid pt-36 pb-20 space-y-6'>
+      <Heading center size='sm' tablet='base' tv='lg'>{i18n.devotionals.title}</Heading>
+      <Text center tv='lg' characters='sm'>{i18n.devotionals.meta.description} </Text>
+    </section>
+    <section class='mt-12 pb-82'>
+      <div class='container-grid md:max-w-screen-sm mb-36'>
+        <form action={`${translatePath('/devocionales/buscar')}`} class='relative' id='form'>
+          <Label class='sr-only' for='q'>{i18n.common.form.search.label}</Label>
+          <InputSearch
+            placeholder={i18n.common.form.search.placeholder}
+            id='q'
+            name='q'
+            value=''
+            class='pr-[110px] search-none'
+          />
+          <Button
+            id='search-btn'
+            class='[&.active]:flex hidden absolute top-[50%] -translate-y-[50%] right-2'
+            size='sm'>{i18n.common.actions.search}</Button
+          >
+        </form>
+        <div class='flex items-center gap-x-12 gap-y-6 mt-12 flex-wrap'>
+          <Text type='label' class='shrink-0'>{i18n.common.labels.popularTags}:</Text>
+
+          {
+            sortedTagsByAmount.slice(0, MAX_TAGS_TO_SHOW).map(tag => (
+              <Link
+                href={`${translatePath('/devocionales')}/tags/${tag.name}`}
+                class='text-primary-base active:text-primary-bold'>
+                #{tag.name}
+              </Link>
+            ))
+          }
+        </div>
+      </div>
+
+      <div
+        class='divide-y container-grid md:max-w-screen-md animate-fade-up animate-duration-base animate-ease-base'
+        id='posts'>
+        {
+          devotionalsPerPage.map(devotional => (
+            <DevotionalCard
+              class='py-16 md:py-12'
+              title={devotional.data.title}
+              slug={devotional.slug}
+              description={devotional.data.description}
+              createdAt={devotional.data.createdAt}
+              cite={devotional.data.cite}
+              slug={devotional.slug}
+            />
+          ))
+        }
+      </div>
+      <Pagination
+        currentPage={currentPage}
+        isFirstPage={currentPage === 1}
+        isLastPage={currentPage === totalPages}
+        totalPages={totalPages}
+        url={translatePath('/devocionales')}
+        variant='outline'
+        class='container-grid md:max-w-screen-md mt-36'
+      />
+    </section>
+  </main>
+</RootLayout>
+
+<style>
+  html {
+    scroll-behavior: auto;
+  }
+</style>
+<script>
+  const params = new URLSearchParams(window.location.search)
+  const hasParamP = params.has('p')
+  const searchInput = document.getElementById('q') as HTMLInputElement
+  const searchBtn = document.getElementById('search-btn') as HTMLButtonElement
+  const form = document.getElementById('form') as HTMLFormElement
+
+  window.addEventListener('load', () => {
+    searchInput.value = ''
+  })
+
+  form.addEventListener('submit', e => {
+    if (searchInput.value.length < 2) e.preventDefault()
+  })
+
+  searchInput.addEventListener('input', e => {
+    const input = e.target as HTMLInputElement
+
+    if (input.value.length >= 2) {
+      searchBtn.classList.add('active')
+      searchInput.classList.remove('search-none')
+    } else {
+      searchBtn.classList.remove('active')
+      searchInput.classList.add('search-none')
+    }
+  })
+
+  if (hasParamP) {
+    const postsContainer = document.getElementById('posts')
+    if (postsContainer) {
+      postsContainer.scrollIntoView({ behavior: 'auto', block: 'start' })
+    }
+  }
+</script>

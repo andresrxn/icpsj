@@ -1,0 +1,53 @@
+---
+import { cn } from '@/utils/theme'
+import type { HTMLAttributes } from 'astro/types'
+import { cva, type VariantProps } from 'class-variance-authority'
+
+export const buttonVariants = cva(
+  'inline-flex gap-8 items-center font-medium justify-center rounded-base whitespace-nowrap focus-visible:outline-none ring-base focus-visible:ring focus-visible:ring-offset-2 ring-offset-surface disabled:disabled max-w-full w-fit active:scale-98',
+  {
+    variants: {
+      variant: {
+        primary:
+          'bg-primary-base hover:bg-primary-base-hover active:bg-primary-base-active text-base-inverted',
+        secondary:
+          'bg-base-bold text-base-subtle hover:bg-base-bold-hover active:bg-base-bold-active',
+        inverted: 'bg-base-subtle-fixed text-primary-base hover:opacity-85 active:opacity-70',
+        danger:
+          'bg-danger-base text-inverted hover:bg-danger-base-hover active:bg-danger-base-active',
+        outline:
+          'bg-surface text-base shadow-sm hover:bg-surface-hover active:bg-surface-active outline outline-base',
+        ghost: 'bg-transparent text-base hover:bg-base-hover active:bg-base-active'
+      },
+      size: {
+        sm: 'px-24 h-32',
+        base: 'px-32 h-36',
+        lg: 'px-36 h-40',
+        'icon-sm': 'size-28 shrink-0',
+        icon: 'size-36 shrink-0',
+        'icon-lg': 'size-44 shrink-0'
+      },
+      full: {
+        true: 'w-full'
+      },
+      pill: {
+        true: 'rounded-full'
+      }
+    },
+    defaultVariants: {
+      variant: 'primary',
+      size: 'base',
+      full: false,
+      pill: false
+    }
+  }
+)
+
+export type Props = HTMLAttributes<'button'> & VariantProps<typeof buttonVariants>
+
+const { class: className, variant, size, full, pill, ...props } = Astro.props
+---
+
+<button class={cn(buttonVariants({ variant, full, pill, size }), className)} {...props}>
+  <slot />
+</button>

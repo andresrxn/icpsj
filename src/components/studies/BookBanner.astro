@@ -1,0 +1,37 @@
+---
+import Link, { type Props as LinkProps } from '@/components/Link.astro'
+import Bible from '@/components/icons/Bible.astro'
+import Text from '@/components/typography/Text.astro'
+import { getLangFromUrl, useTranslatedPath } from '@/i18n/utils'
+import { cn } from '@/utils/theme'
+
+const lang = getLangFromUrl(Astro.url)
+const translatePath = useTranslatedPath(lang)
+
+interface Props extends Omit<LinkProps, 'href'> {
+  book: string
+  amount: number
+}
+
+const { amount, book, class: className, ...props } = Astro.props
+---
+
+<Link
+  wrapper
+  href={`${translatePath('/estudios/libros')}/${book.toLocaleLowerCase()}`}
+  class={cn(
+    'flex-col gap-12 shrink-0 group px-20 py-14 rounded-base bg-surface hover:outline hover:outline-base',
+    className
+  )}
+  {...props}>
+  <Bible class='size-82 -ml-10 2xl:size-[100px]' />
+
+  <div
+    class='group-hover:decoration group-hover:decoration-primary-subtle group-hover:underline space-y-4'>
+    <Text type='label' tv='lg'>{book}</Text>
+    <div class='flex items-center gap-6'>
+      <Text type='label' class='text-primary-base'>{amount}</Text>
+      <Text> Estudios</Text>
+    </div>
+  </div>
+</Link>

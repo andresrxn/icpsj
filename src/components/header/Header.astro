@@ -1,0 +1,82 @@
+---
+import Button from '@/components/Button.astro'
+
+import Link from '@/components/Link.astro'
+import { IMAGES } from '@/consts'
+import { Menu } from 'lucide-astro'
+import HeaderLink from '@/components/header/HeaderLink.astro'
+
+import { getLangFromUrl, useTranslatedPath } from '@/i18n/utils'
+import { getI18N } from '@/i18n'
+import LanguageSelector from '@/components/LanguageSelector.astro'
+
+const lang = getLangFromUrl(Astro.url)
+const i18n = getI18N({ currentLocale: lang })
+const translatePath = useTranslatedPath(lang)
+---
+
+<header
+  class='bg-base-subtle z-950 h-52 lg:h-44 sticky top-0 overflow-x-clip shadow-base'
+  id='header'>
+  <div class='container-grid flex items-center gap-8 justify-between relative'>
+    <div class='absolute top-0 left-[50%] -translate-x-[50%] py-4 h-full z-100'>
+      <Link href={translatePath('/')} class='h-full'>
+        <img src={IMAGES.LOGOS.SYMBOL} alt='Logo' />
+      </Link>
+    </div>
+    <div class='lg:absolute lg:right-0 lg:z-950 relative w-fit'>
+      <LanguageSelector />
+    </div>
+    <Button id='nav-menu-btn' class='lg:hidden' variant='ghost' size='icon'>
+      <Menu class='size-icon-base text-icon-base' />
+    </Button>
+  </div>
+  <nav
+    id='nav'
+    class='fixed top-52 bg-gradient-to-t from-primary-subtle to-65% to-base-subtle w-full h-[calc(100%_-_52px)] flex opacity-0 z-hidden invisible pointer-events-none select-none -translate-y-52 [&.active]:opacity-100 [&.active]:visible [&.active]:pointer-events-auto [&.active]:select-auto [&.active]:translate-y-0 [&.active]:z-auto lg:absolute lg: lg:flex lg:flex-row lg:bg-none gap-28 lg:gap-0 flex-col items-center justify-center lg:container-grid lg:justify-between lg:top-0 lg:-translate-x-[50%] lg:left-[50%] lg:translate-y-0 lg:visible lg:select-auto lg:pointer-events-auto lg:z-auto lg:opacity-100 transition-all duration-base ease-effect'>
+    <ul class='flex items-center justify-center flex-col gap-28 text-body-lg lg:flex-row xl:gap-36'>
+      <li>
+        <HeaderLink href={translatePath('/')}>{i18n.common.links.home}</HeaderLink>
+      </li>
+      <li>
+        <HeaderLink href={translatePath('/estudios')}>{i18n.common.links.studies}</HeaderLink>
+      </li>
+      <li>
+        <HeaderLink href={translatePath('/devocionales')}
+          >{i18n.common.links.devotionals}</HeaderLink
+        >
+      </li>
+      <li>
+        <HeaderLink href={translatePath('/recursos')}>{i18n.common.links.resources}</HeaderLink>
+      </li>
+    </ul>
+    <ul
+      class='flex items-center justify-center flex-col gap-28 text-body-lg lg:flex-row lg:pr-96 xl:gap-36'>
+      <li>
+        <HeaderLink href={translatePath('/horarios')}>{i18n.common.links.schedule}</HeaderLink>
+      </li>
+      <li>
+        <HeaderLink href={translatePath('/acerca-de')}>{i18n.common.links.about}</HeaderLink>
+      </li>
+      <li>
+        <HeaderLink href={translatePath('/oracion')}>{i18n.common.links.prayer}</HeaderLink>
+      </li>
+    </ul>
+  </nav>
+</header>
+
+<script>
+  const nav = document.getElementById('nav')
+
+  const navMenuBtn = document.getElementById('nav-menu-btn')
+
+  document.addEventListener('keyup', e => {
+    if (e.key === 'Escape' && nav?.classList.contains('active')) {
+      nav.classList.remove('active')
+    }
+  })
+
+  navMenuBtn?.addEventListener('click', () => {
+    nav?.classList.toggle('active')
+  })
+</script>

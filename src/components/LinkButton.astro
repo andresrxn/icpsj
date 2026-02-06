@@ -1,0 +1,22 @@
+---
+import { buttonVariants } from '@/components/Button.astro'
+import { cn } from '@/utils/theme'
+import type { HTMLAttributes } from 'astro/types'
+import { type VariantProps } from 'class-variance-authority'
+
+interface Props extends Omit<HTMLAttributes<'a'>, 'target'>, VariantProps<typeof buttonVariants> {
+  href: string
+  target?: '_self' | '_blank' | '_parent' | '_top'
+}
+
+const { class: className, href, target, variant, size, full, pill, ...props } = Astro.props
+---
+
+<a
+  href={href}
+  target={target}
+  rel={target === '_blank' ? 'noopener noreferrer' : null}
+  class={cn(buttonVariants({ variant, full, pill, size }), 'text-inherit', className)}
+  {...props}>
+  <slot />
+</a>

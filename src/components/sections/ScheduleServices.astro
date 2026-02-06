@@ -1,0 +1,59 @@
+---
+import ScheduleCard from '@/components/schedule/ScheduleCard.astro'
+import { getI18N } from '@/i18n'
+import { getLangFromUrl } from '@/i18n/utils'
+import { cn } from '@/utils/theme'
+import type { HTMLAttributes } from 'astro/types'
+import { Heart, Home, NotebookPen, Speech } from 'lucide-astro'
+interface Props extends HTMLAttributes<'div'> {}
+
+const lang = getLangFromUrl(Astro.url)
+const i18n = getI18N({ currentLocale: lang })
+
+const { class: className, ...props } = Astro.props
+---
+
+<div class={cn('relative w-full', className)} {...props}>
+  <div
+    class='bg-gradient-to-l from-base to-transparent absolute top-0 right-0 w-32 h-full z-100 lg:hidden'>
+  </div>
+  <div
+    class='flex items-center w-full overflow-y-auto gap-12 lg:flex-wrap lg:justify-center pb-12 lg:pb-0 pr-32 scroll-p-0 snap-x snap-mandatory lg:gap-16 max-w-screen-lg mx-auto lg:overflow-visible lg:pr-0'>
+    <ScheduleCard
+      class='shrink-0 snap-start snap-normal'
+      title={i18n.schedule.services.sunday.title}
+      description={i18n.schedule.services.sunday.description}
+      icon={Speech}
+      time={new Date().setHours(11, 0, 0, 0)}
+    />
+    <ScheduleCard
+      class='shrink-0 snap-start snap-normal'
+      title={i18n.schedule.services.monday.title}
+      description={i18n.schedule.services.monday.description}
+      icon={Heart}
+      time={new Date().setHours(11, 0, 0, 0)}
+    />
+
+    <ScheduleCard
+      class='shrink-0 snap-start snap-normal'
+      title={i18n.schedule.services.wednesday.title}
+      description={i18n.schedule.services.wednesday.description}
+      icon={Home}
+      time={new Date().setHours(20, 0, 0, 0)}
+    />
+    <ScheduleCard
+      class='shrink-0 snap-start snap-normal'
+      title={i18n.schedule.services.thursday.title}
+      description={i18n.schedule.services.thursday.description}
+      icon={NotebookPen}
+      time={new Date().setHours(20, 0, 0, 0)}
+    />
+    <ScheduleCard
+      class='shrink-0 snap-start snap-normal'
+      title={i18n.schedule.services.friday.title}
+      description={i18n.schedule.services.friday.description}
+      icon={NotebookPen}
+      time={new Date().setHours(20, 0, 0, 0)}
+    />
+  </div>
+</div>

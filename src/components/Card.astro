@@ -1,0 +1,12 @@
+---
+import { cn } from '@/utils/theme'
+import type { HTMLAttributes } from 'astro/types'
+
+interface Props extends HTMLAttributes<'article'> {}
+
+const { class: className, ...props } = Astro.props
+---
+
+<article class={cn('bg-surface rounded-base shadow-base p-20', className)} {...props}>
+  <slot />
+</article>

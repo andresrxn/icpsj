@@ -1,0 +1,405 @@
+---
+import Divider from '@/components/Divider.astro'
+import Image from '@/components/Image.astro'
+import Link from '@/components/Link.astro'
+import Heading from '@/components/typography/Heading.astro'
+import Text from '@/components/typography/Text.astro'
+import { getI18N } from '@/i18n'
+import { getLangFromUrl } from '@/i18n/utils'
+import RootLayout from '@/layouts/RootLayout.astro'
+import { generateSiteTitle } from '@/utils/meta'
+
+const lang = getLangFromUrl(Astro.url)
+const i18n = getI18N({ currentLocale: lang })
+---
+
+<RootLayout
+  title={generateSiteTitle(i18n.studies.meta.title)}
+  description={i18n.studies.meta.description}>
+  <main>
+    <section class='container-grid pt-36 pb-20 space-y-6'>
+      <Heading center size='sm' tablet='base' tv='lg'>{i18n.resources.title}</Heading>
+      <Text center tv='lg' characters='sm'>
+        {i18n.resources.meta.description}
+      </Text>
+    </section>
+    <section class='pb-60 mt-20 lg:mt-28'>
+      <div class='container-grid grid gap-56 md:gap-82'>
+        <div>
+          <Heading level={3} tablet='base' tv='lg' class='pb-4'
+            >{i18n.resources.sections.lecture.title}</Heading
+          >
+          <Text priority='secondary' size='sm' tablet='base' class='pb-12 md:pb-20'>
+            {i18n.resources.sections.lecture.description}
+          </Text>
+          <Divider full />
+          <div class='mt-24 grid gap-32 md:grid-cols-2 md:mt-36 2xl:grid-cols-4'>
+            <div class='flex flex-col gap-6'>
+              <Image
+                src='/images/resources/logos/esword.png'
+                alt='Logo E-Sword'
+                class='size-[100px] rounded-base mb-8'
+              />
+              <Text type='label'>E-Sword</Text>
+              <Text priority='secondary' size='sm'>{i18n.resources.sections.lecture.esword}</Text>
+              <div class='flex flex-wrap gap-x-12 gap-y-6'>
+                <Link href={`https://www.e-sword.net/downloads.html`} target='_blank' icon>
+                  {i18n.common.actions.download} PC
+                </Link>
+                <Link
+                  href={`https://apps.apple.com/us/app/e-sword-x-bible-study-extreme/id968437868`}
+                  target='_blank'
+                  icon>
+                  {i18n.common.actions.download} MAC
+                </Link>
+                <Link
+                  href={`https://apps.apple.com/us/app/e-sword-hd-bible-study-to-go/id567008119`}
+                  target='_blank'
+                  icon>
+                  {i18n.common.actions.download} iPad
+                </Link>
+                <Link
+                  href={`https://apps.apple.com/us/app/e-sword-lt-bible-study-to-go/id634158738`}
+                  target='_blank'
+                  icon>
+                  {i18n.common.actions.download} IOS
+                </Link>
+                <Link
+                  href={`https://play.google.com/store/apps/details?id=net.esword.esword`}
+                  target='_blank'
+                  icon>
+                  {i18n.common.actions.download} Android
+                </Link>
+              </div>
+            </div>
+
+            <div class='flex flex-col gap-6'>
+              <Image
+                src='/images/resources/logos/biblia-referencia-cruzada.png'
+                alt='Logo OpenLP'
+                class='size-[100px] rounded-base mb-8'
+              />
+              <Text type='label'>Biblia Referencia Cruzada</Text>
+              <Text priority='secondary' size='sm'>
+                {i18n.resources.sections.lecture.brc}
+              </Text>
+              <div class='flex flex-wrap gap-x-12 gap-y-6'>
+                <Link
+                  href={`https://play.google.com/store/apps/details?id=com.sgmapps.biblia_de_referencia`}
+                  target='_blank'
+                  icon>
+                  {i18n.common.actions.download} Android
+                </Link>
+              </div>
+            </div>
+            <div class='flex flex-col gap-6'>
+              <Image
+                src='/images/resources/logos/bible-gateaway.png'
+                alt='Logo BibleGateaway'
+                class='size-[100px] rounded-base mb-8'
+              />
+              <Text type='label'>BibleGateaway</Text>
+              <Text priority='secondary' size='sm'>
+                {i18n.resources.sections.lecture.bg}
+              </Text>
+              <div class='flex flex-wrap gap-x-12 gap-y-6'>
+                <Link href={`https://www.biblegateway.com/?language=${lang}`} target='_blank' icon>
+                  Visitar
+                </Link>
+              </div>
+            </div>
+            <div class='flex flex-col gap-6'>
+              <Image
+                src='/images/resources/logos/openlp.png'
+                alt='Logo OpenLP'
+                class='size-[100px] rounded-base mb-8'
+              />
+              <Text type='label'>OpenLP</Text>
+              <Text priority='secondary' size='sm'>
+                {i18n.resources.sections.lecture.openlp}
+              </Text>
+              <div class='flex flex-wrap gap-x-12 gap-y-6'>
+                <Link href={`https://www.biblegateway.com/?language=${lang}`} target='_blank' icon>
+                  {i18n.common.actions.download}
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <Heading level={3} tablet='base' tv='lg' class='pb-4'
+            >{i18n.resources.sections.versions.title}</Heading
+          >
+          <Text priority='secondary' size='sm' tablet='base' class='pb-12 md:pb-20'>
+            {i18n.resources.sections.versions.description}
+          </Text>
+          <Divider full />
+          <div class='mt-24 grid gap-32 md:grid-cols-2 md:mt-36 2xl:grid-cols-3'>
+            <div class='flex flex-col items-start gap-6'>
+              <Text type='label'>Biblia de las Américas (BLA)</Text>
+
+              <Link
+                href='/files/resources/bibles/americas.bblx'
+                download='biblia_de_las_americas.bblx'
+                class='text-ellipsis overflow-hidden break-words max-w-full justify-start'
+                icon>
+                biblia_de_las_americas.bblx
+              </Link>
+            </div>
+            <div class='flex flex-col items-start gap-6'>
+              <Text type='label'>Dios Habla Hoy (DHH)</Text>
+
+              <Link
+                href='/files/resources/bibles/dhh.bblx'
+                download='biblia_dios_habla_hoy.bblx'
+                class='text-ellipsis overflow-hidden break-words max-w-full justify-start'
+                icon>
+                biblia_dios_habla_hoy.bblx
+              </Link>
+            </div>
+            <div class='flex flex-col items-start gap-6'>
+              <Text type='label'>Dios Habla Hoy con Deuterocanónicos (DHH)</Text>
+
+              <Link
+                href='/files/resources/bibles/dhh_deuterocanonicos.bblx'
+                download='biblia_dios_habla_hoy_deuterocanonicos.bblx'
+                class='text-ellipsis overflow-hidden break-words max-w-full justify-start'
+                icon>
+                biblia_dios_habla_hoy_deuterocanonicos.bblx
+              </Link>
+            </div>
+            <div class='flex flex-col items-start gap-6'>
+              <Text type='label'>Palabra de Dios para Todos (PDT)</Text>
+
+              <Link
+                href='/files/resources/bibles/pdt.bblx'
+                download='biblia_palabra_de_dios_para_todos.bblx'
+                class='text-ellipsis overflow-hidden break-words max-w-full justify-start'
+                icon>
+                biblia_palabra_de_dios_para_todos.bblx
+              </Link>
+            </div>
+            <div class='flex flex-col items-start gap-6'>
+              <Text type='label'>Nueva Traducción Viviente (NTV)</Text>
+
+              <Link
+                href='/files/resources/bibles/ntv.bblx'
+                download='biblia_nueva_traduccion_viviente.bblx'
+                class='text-ellipsis overflow-hidden break-words max-w-full justify-start'
+                icon>
+                biblia_nueva_traduccion_viviente.bblx
+              </Link>
+            </div>
+            <div class='flex flex-col items-start gap-6'>
+              <Text type='label'>Nueva Versión Internacional 1999 (NVI)</Text>
+
+              <Link
+                href='/files/resources/bibles/nvi_1999.bblx'
+                download='biblia_nueva_version_internacional_1999.bblx'
+                class='text-ellipsis overflow-hidden break-words max-w-full justify-start'
+                icon>
+                biblia_nueva_version_internacional_1999.bblx
+              </Link>
+            </div>
+            <div class='flex flex-col items-start gap-6'>
+              <Text type='label'>Biblia Lenguaje Sencillo (BLS)</Text>
+
+              <Link
+                href='/files/resources/bibles/bls.bblx'
+                download='biblia_lenguaje_sencillo.bblx'
+                class='text-ellipsis overflow-hidden break-words max-w-full justify-start'
+                icon>
+                biblia_lenguaje_sencillo.bblx
+              </Link>
+            </div>
+            <div class='flex flex-col items-start gap-6'>
+              <Text type='label'>Traducción al Lenguage Actual (TLA)</Text>
+
+              <Link
+                href='/files/resources/bibles/tla.bblx'
+                download='biblia_traduccion_al_lenguaje_actual.bblx'
+                class='text-ellipsis overflow-hidden break-words max-w-full justify-start'
+                icon>
+                biblia_traduccion_al_lenguaje_actual.bblx
+              </Link>
+            </div>
+            <div class='flex flex-col items-start gap-6'>
+              <Text type='label'>Biblia Latinoamericana</Text>
+
+              <Link
+                href='/files/resources/bibles/latinoamericana.bblx'
+                download='biblia_latinoamericana.bblx'
+                class='text-ellipsis overflow-hidden break-words max-w-full justify-start'
+                icon>
+                biblia_latinoamericana.bblx
+              </Link>
+            </div>
+            <div class='flex flex-col items-start gap-6'>
+              <Text type='label'>Kadosh Israelita Mesiánica</Text>
+
+              <Link
+                href='/files/resources/bibles/kadosh_israelita_mesianica.bblx'
+                download='biblia_kadosh_israelita_mesianica.bblx'
+                class='text-ellipsis overflow-hidden break-words max-w-full justify-start'
+                icon>
+                biblia_kadosh_israelita_mesianica.bblx
+              </Link>
+            </div>
+            <div class='flex flex-col items-start gap-6'>
+              <Text type='label'>Torah</Text>
+
+              <Link
+                href='/files/resources/bibles/torah.bblx'
+                download='biblia_torah.bblx'
+                class='hyphens-auto text-ellipsis overflow-hidden break-words max-w-full justify-start'
+                icon>
+                biblia_kadosh_israelita_mesianica.bblx
+              </Link>
+            </div>
+          </div>
+        </div>
+        <div>
+          <Heading level={3} tablet='base' tv='lg' class='pb-4'>
+            {i18n.resources.sections.comments.title}
+          </Heading>
+          <Text priority='secondary' size='sm' tablet='base' class='pb-12 md:pb-20'>
+            {i18n.resources.sections.comments.description}
+          </Text>
+          <Divider full />
+          <div class='mt-24 grid gap-32 md:grid-cols-2 md:mt-36 2xl:grid-cols-3'>
+            <div class='flex flex-col items-start gap-6'>
+              <Text type='label'>Biblia Comentada</Text>
+
+              <Link
+                href='/files/resources/comments/biblia_comentada.cmtx'
+                download='biblia_comentada.cmtx'
+                icon>
+                biblia_comentada.cmtx
+              </Link>
+            </div>
+
+            <div class='flex flex-col items-start gap-6'>
+              <Text type='label'>David Gusik</Text>
+
+              <Link
+                href='/files/resources/comments/guzik-es.cmtx'
+                download='comentarios_guzik.cmtx'
+                icon>
+                comentarios_guzik.cmtx
+              </Link>
+            </div>
+
+            <div class='flex flex-col items-start gap-6'>
+              <Text type='label'>Dios Habla Hoy (DHH)</Text>
+
+              <Link href='/files/resources/comments/dhh.cmtx' download='commentarios_dhh.cmtx' icon>
+                commentarios_dhh.cmtx
+              </Link>
+            </div>
+
+            <div class='flex flex-col items-start gap-6'>
+              <Text type='label'>Kadosh</Text>
+
+              <Link
+                href='/files/resources/comments/kadosh.cmtx'
+                download='commentarios_kadosh.cmtx'
+                icon>
+                commentarios_kadosh.cmtx
+              </Link>
+            </div>
+
+            <div class='flex flex-col items-start gap-6'>
+              <Text type='label'> Nueva Traducción Viviente (NTV)</Text>
+
+              <Link href='/files/resources/comments/ntv.cmtx' download='commentarios_ntv.cmtx' icon>
+                commentarios_ntv.cmtx
+              </Link>
+            </div>
+
+            <div class='flex flex-col items-start gap-6'>
+              <Text type='label'>Nueva Versión Internacional 1999 (NVI)</Text>
+
+              <Link
+                href='/files/resources/comments/nvi.cmtx'
+                download='commentarios_nvi_1999.cmtx'
+                icon>
+                commentarios_nvi_1999.cmtx
+              </Link>
+            </div>
+
+            <div class='flex flex-col items-start gap-6'>
+              <Text type='label'>Palabra de Dios para Todos (PDT)</Text>
+
+              <Link href='/files/resources/comments/pdt.cmtx' download='commentarios_pdt.cmtx' icon>
+                commentarios_pdt.cmtx
+              </Link>
+            </div>
+
+            <div class='flex flex-col items-start gap-6'>
+              <Text type='label'>Traducción al Lenguaje Actual (TLA)</Text>
+
+              <Link href='/files/resources/comments/tla.cmtx' download='commentarios_tla.cmtx' icon>
+                commentarios_tla.cmtx
+              </Link>
+            </div>
+          </div>
+        </div>
+        <div>
+          <Heading level={3} tablet='base' tv='lg' class='pb-4'>
+            {i18n.resources.sections.dictionaries.title}
+          </Heading>
+          <Text priority='secondary' size='sm' tablet='base' class='pb-12 md:pb-20'>
+            {i18n.resources.sections.dictionaries.description}
+          </Text>
+          <Divider full />
+
+          <div class='mt-24 grid gap-32 md:grid-cols-2 md:mt-36 2xl:grid-cols-3'>
+            <div class='flex flex-col items-start gap-6'>
+              <Text type='label'>Strong (PDF)</Text>
+
+              <Link
+                href='/files/resources/dictionaries/diccionario_strong.pdf'
+                download='diccionario_strong.pdf'
+                icon>
+                diccionario_strong.pdf
+              </Link>
+            </div>
+
+            <div class='flex flex-col items-start gap-6'>
+              <Text type='label'>Concordancia</Text>
+
+              <Link
+                href='/files/resources/dictionaries/concordancia.dctx'
+                download='diccionario_concordancia.dctx'
+                icon>
+                diccionario_concordancia.dctx
+              </Link>
+            </div>
+
+            <div class='flex flex-col items-start gap-6'>
+              <Text type='label'>Kadosh</Text>
+
+              <Link
+                href='/files/resources/dictionaries/kadosh.dctx'
+                download='diccionario_kadosh.dctx'
+                icon>
+                diccionario_kadosh.dctx
+              </Link>
+            </div>
+
+            <div class='flex flex-col items-start gap-6'>
+              <Text type='label'>Strong</Text>
+
+              <Link
+                href='/files/resources/dictionaries/strong.dctx'
+                download='diccionario_strong.dctx'
+                icon>
+                diccionario_strong.dctx
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</RootLayout>

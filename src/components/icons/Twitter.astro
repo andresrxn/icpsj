@@ -1,0 +1,41 @@
+---
+import type { HTMLAttributes } from 'astro/types'
+
+interface Props extends HTMLAttributes<'svg'> {}
+
+const { ...props } = Astro.props
+---
+
+<svg
+  {...props}
+  version='1.1'
+  xmlns='http://www.w3.org/2000/svg'
+  x='0px'
+  y='0px'
+  viewBox='0 0 864.2 862.6'
+  style='enable-background:new 0 0 864.2 862.6;'
+  xml:space='preserve'>
+  <style type='text/css'>
+    .st0-twitter {
+      stroke: #ffffff;
+      stroke-miterlimit: 10;
+    }
+    .st1-twitter {
+      fill: #ffffff;
+    }
+  </style>
+  <g>
+    <path
+      class='st0-twitter'
+      d='M760.3,859.3H103.9c-55.1,0-99.8-44.7-99.8-99.8V103.1C4.1,48,48.8,3.3,103.9,3.3h656.4
+		c55.1,0,99.8,44.7,99.8,99.8v656.4C860.1,814.6,815.4,859.3,760.3,859.3z'
+    ></path>
+    <g transform='translate(52.390088,-25.058597)'>
+      <path
+        class='st1-twitter'
+        d='M83.2,177.5l230.1,307.6L81.8,735.2h52.1l202.7-219l163.8,219h177.3l-243-324.9l215.5-232.8
+			H598L411.4,379.2L260.5,177.5H83.2z M159.9,215.9h81.5l359.7,481h-81.5L159.9,215.9z'
+      ></path>
+    </g>
+  </g>
+</svg>

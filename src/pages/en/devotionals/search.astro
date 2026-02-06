@@ -1,0 +1,7 @@
+---
+import SearchPage from '@/components/pages/devotionals/Search.astro'
+const query = Astro.url.searchParams.get('q')
+if (!query || query === '' || query.length < 2) return Astro.redirect('/404')
+---
+
+<SearchPage />

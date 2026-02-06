@@ -1,0 +1,104 @@
+---
+import Image from '@/components/Image.astro'
+import Bold from '@/components/typography/Bold.astro'
+import Text from '@/components/typography/Text.astro'
+import { IMAGES } from '@/consts'
+import { getI18N } from '@/i18n'
+import { getLangFromUrl } from '@/i18n/utils'
+import { formatTime } from '@/utils/dates'
+import { cn } from '@/utils/theme'
+import type { HTMLAttributes } from 'astro/types'
+
+const lang = getLangFromUrl(Astro.url)
+const i18n = getI18N({ currentLocale: lang })
+
+interface Props extends HTMLAttributes<'article'> {
+  title: string
+  description: string
+  day: string
+  startsAt: Date | number
+  endsAt: Date | number
+  topic?: string
+  cite?: string
+  pastors?: { name: string; avatar?: string }[]
+  imageSrc: string
+  imageAlt: string
+}
+
+const {
+  title,
+  description,
+  topic,
+  cite,
+  pastors,
+  day,
+  startsAt,
+  endsAt,
+  imageAlt,
+  imageSrc,
+  class: className,
+  ...props
+} = Astro.props
+---
+
+<article
+  class={cn(
+    'min-h-[500px] rounded-tl-lg rounded-tr-lg w-full bg-surface flex flex-col lg:flex-row overflow-hidden shadow-lg',
+    className
+  )}
+  {...props}>
+  <div class='p-18 md:p-32 rounded-lg flex flex-col gap-6 lg:w-[45%]'>
+    <Text type='inline' class='text-primary-base' tablet='lg'>{day}</Text>
+    <Text type='label' size='3xl' tablet='4xl'>{title}</Text>
+    <Text priority='secondary' tablet='lg'>{description}</Text>
+    {
+      topic && (
+        <Fragment>
+          <div class='md:text-body-lg border-t-2 border-base-bold mt-12 pt-18 '>
+            <Bold>{i18n.common.labels.topic}:</Bold>
+            <Text class='inline-block' tablet='lg'>
+              {topic}
+            </Text>
+          </div>
+          {cite && (
+            <Text type='inline' size='sm' tablet='base'>
+              {cite}
+            </Text>
+          )}
+        </Fragment>
+      )
+    }
+    {
+      pastors && pastors.length > 0 && (
+        <Fragment>
+          <div class='flex gap-16 flex-wrap border-t-2 border-base-bold mt-12 pt-18'>
+            {pastors.map(pastor => (
+              <div class='flex items-center gap-12 shrink-0'>
+                <div class='size-32 bg-base flex items-end justify-center rounded-full overflow-hidden border shadow-sm'>
+                  <Image
+                    src={pastor.avatar ?? IMAGES.FALLBACKS.AVATAR_CARD}
+                    alt=''
+                    class='size-28'
+                  />
+                </div>
+
+                <Text>{pastor.name}</Text>
+              </div>
+            ))}
+          </div>
+        </Fragment>
+      )
+    }
+
+    <Text type='label' size='3xl' class='border-t-2 border-base-bold mt-12 pt-18'>
+      {formatTime({ time: startsAt, lang })} - {formatTime({ time: endsAt, lang })}
+    </Text>
+  </div>
+  <div class='mt-20 bg-surface dark relative lg:mt-0'>
+    <Image
+      src={imageSrc}
+      alt={imageAlt}
+      class='h-[350px] md:h-[450px] lg:h-full lg:min-h-[400px] object-cover 2xl:min-h-[550px]'
+    />
+  </div>
+</article>

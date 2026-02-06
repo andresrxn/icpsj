@@ -1,0 +1,36 @@
+---
+import Text from '@/components/typography/Text.astro'
+import { getLangFromUrl } from '@/i18n/utils'
+import { formatTime } from '@/utils/dates'
+import { cn } from '@/utils/theme'
+import type { HTMLAttributes } from 'astro/types'
+import { Clock } from 'lucide-astro'
+
+const lang = getLangFromUrl(Astro.url)
+
+interface Props extends HTMLAttributes<'article'> {
+  title: string
+  description: string
+  day?: string
+  time: Date | number
+  icon: astroHTML.JSX.Element
+}
+const { title, description, day, time, icon: Icon, class: className, ...props } = Astro.props
+---
+
+<article
+  {...props}
+  class={cn(
+    'bg-surface shadow-sm rounded-base p-14 w-[300px] grid gap-6 relative overflow-hidden lg:hover:scale-104 transition-transform ease-base duration-base',
+    className
+  )}>
+  <Text type='label' class='text-primary-base' tablet='lg'>{title}</Text>
+  <Text priority='secondary' size='sm' tablet='base'>{description}</Text>
+  <Text class='inline-flex items-center gap-6 mt-10'
+    ><Clock class='size-icon-responsive text-icon-base-subtle' /> {formatTime({ time, lang })}</Text
+  >
+
+  <Icon
+    class='size-icon-base text-icon-primary absolute bottom-8 right-8 origin-bottom-right scale-175 opacity-10 pointer-events-none'
+  />
+</article>
