@@ -14,6 +14,8 @@ import { getCollection } from 'astro:content'
 import { getI18N } from '@/i18n'
 import { getLangFromUrl } from '@/i18n/utils'
 
+export const prerender = false
+
 const query = Astro.url.searchParams.get('q')!
 
 const lang = getLangFromUrl(Astro.url)
@@ -21,6 +23,7 @@ const i18n = getI18N({ currentLocale: lang })
 const devotionals = await getCollection('devotionals', entry => {
   return entry.slug.startsWith(lang)
 })
+
 const filteredDevotionals = devotionals.filter(post => {
   const queryNormalized = removeDiacritics(query.toLocaleLowerCase())
   const titleNormalized = removeDiacritics(post.data.title.toLocaleLowerCase())

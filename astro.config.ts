@@ -13,9 +13,9 @@ export default defineConfig({
   },
   site: PUBLIC_SITE_URL,
   devToolbar: {
-    enabled: false
+    enabled: true
   },
-  output: 'server',
+  output: 'hybrid',
   integrations: [
     mdx(),
     sitemap({
